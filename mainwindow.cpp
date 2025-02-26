@@ -8,15 +8,15 @@
 #include <QTextEdit>
 #include <QMenuBar>
 #include <QFileDialog>
+#include <QFileDialog>
 
-QString  text = ("def hello_world():\n"
-                              "    # Это комментарий\n"
-                              "    print(\"Hello, world!\")\n"
-                              "    return 0\n"
-                          );
+QString *text = new QString("def hello_world():\n"
+                            "    # Это комментарий\n"
+                            "    print(\"Hello, world!\")\n"
+                            "    return 0\n");
 
-
-QString selectFile(QWidget *parent) {
+QString selectFile(QWidget *parent)
+{
     QString fileName = QFileDialog::getOpenFileName(parent,
                                                     "Выберите файл",
                                                     "",
@@ -25,15 +25,16 @@ QString selectFile(QWidget *parent) {
     return fileName;
 }
 
-void file_open(QTabWidget *qtab, const QString &file_name) {
+void file_open(QTabWidget *qtab, const QString &file_name)
+{
 
     QWidget *newTab = new QWidget();
     QVBoxLayout *layout = new QVBoxLayout(newTab);
 
     QFile file(file_name);
 
-
-    if (!file.open(QFile::ReadOnly | QFile::Text)) {
+    if (!file.open(QFile::ReadOnly | QFile::Text))
+    {
         qDebug() << "Не удалось открыть файл:";
         return;
     }
@@ -41,9 +42,8 @@ void file_open(QTabWidget *qtab, const QString &file_name) {
     QTextStream in(&file);
     QString file_content = in.readAll();
 
-    QPlainTextEdit  *lineEdit = new QPlainTextEdit ();
+    QPlainTextEdit *lineEdit = new QPlainTextEdit();
     lineEdit->setStyleSheet("QPlainTextEdit { color: white; background-color: #BDB76B; }");
-
 
     lineEdit->setPlainText(file_content);
     layout->addWidget(lineEdit);
@@ -55,27 +55,27 @@ void file_open(QTabWidget *qtab, const QString &file_name) {
     qtab->addTab(newTab, QFileInfo(file_name).fileName());
 
     file.close();
-
 }
 
-
-
-void pl_tab(QTabWidget *qtab) {
-    QWidget *newTab = new QWidget(); // Создаем новый виджет для вкладки
+void pl_tab(QTabWidget *qtab)
+{
+    QWidget *newTab = new QWidget();               // Создаем новый виджет для вкладки
     QVBoxLayout *layout = new QVBoxLayout(newTab); // Добавляем layout для нового виджета
-    QPlainTextEdit  *lineEdit = new QPlainTextEdit ();
+    QPlainTextEdit *lineEdit = new QPlainTextEdit();
     lineEdit->setStyleSheet("QPlainTextEdit { color: white; background-color: #BDB76B; }");
 
     layout->addWidget(lineEdit);
-    qtab->addTab(newTab, "Новая вкладка");// Добавляем виджет в QTabWidget
+    qtab->addTab(newTab, "Новая вкладка"); // Добавляем виджет в QTabWidget
 
     new PythonHighlighter(lineEdit->document());
 }
 
-void save_file (QPlainTextEdit *textEdit, const QString &file_name){
+void save_file(QPlainTextEdit *textEdit, const QString &file_name)
+{
     QFile file(file_name);
     // Открываем файл в режиме записи (WriteOnly)
-    if (!file.open(QFile::WriteOnly | QFile::Text)) {
+    if (!file.open(QFile::WriteOnly | QFile::Text))
+    {
         qDebug() << "Не удалось открыть файл для записи:" << file.errorString();
         return;
     }
@@ -87,41 +87,167 @@ void save_file (QPlainTextEdit *textEdit, const QString &file_name){
     file.close();
 }
 
-
-void save_global(QTabWidget * tab_widget , QWidget *centralWidget){
+void save_global(QTabWidget *tab_widget, QWidget *centralWidget)
+{
     int currentIndex = tab_widget->currentIndex();
 
     // Получаем текущий виджет (таб)
     QWidget *currentTab = tab_widget->widget(currentIndex);
 
-    if (currentTab) {
+    if (currentTab)
+    {
         // Извлекаем имя файла из свойства
         QString file_name = currentTab->property("fileName").toString();
 
-        QPlainTextEdit *textEdit = currentTab->findChild<QPlainTextEdit*>();
+        QPlainTextEdit *textEdit = currentTab->findChild<QPlainTextEdit *>();
 
-        if (textEdit) {
-            if (file_name.isEmpty()) {
+        if (textEdit)
+        {
+            if (file_name.isEmpty())
+            {
                 // Если имя файла пустое, то предложить сохранить как
                 QString selectedFileName = QFileDialog::getSaveFileName(centralWidget, "Сохранить файл", "", "Все файлы (*.*);;Текстовые файлы (*.txt);;Изображения (*.png;*.jpg;*.bmp)");
 
-                if (!selectedFileName.isEmpty()) {
+                if (!selectedFileName.isEmpty())
+                {
                     // Сохраним файл с новым именем.
                     save_file(textEdit, selectedFileName);
                     currentTab->setProperty("fileName", selectedFileName); // Обновляем имя файла в свойстве.
                 }
-            } else {
+            }
+            else
+            {
                 // Если у нас уже есть имя файла, просто сохраняем.
                 save_file(textEdit, file_name);
             }
-        } else {
+        }
+        else
+        {
             qDebug() << "Не удалось найти QTextEdit в текущем табе.";
         }
-    } else {
+    }
+    else
+    {
         qDebug() << "Нет текущего таба для сохранения.";
     }
 }
 
+QString selectFile(QWidget *parent)
+{
+    QString fileName = QFileDialog::getOpenFileName(parent,
+                                                    "Выберите файл",
+                                                    "",
+                                                    "Все файлы (*.*);;Текстовые файлы (*.txt);;Изображения (*.png;*.jpg;*.bmp)");
+
+    return fileName;
+}
+
+void file_open(QTabWidget *qtab, const QString &file_name)
+{
+
+    QWidget *newTab = new QWidget();
+    QVBoxLayout *layout = new QVBoxLayout(newTab);
+
+    QFile file(file_name);
+
+    if (!file.open(QFile::ReadOnly | QFile::Text))
+    {
+        qDebug() << "Не удалось открыть файл:";
+        return;
+    }
+
+    QTextStream in(&file);
+    QString file_content = in.readAll();
+
+    QPlainTextEdit *lineEdit = new QPlainTextEdit();
+    lineEdit->setStyleSheet("QPlainTextEdit { color: white; background-color: #BDB76B; }");
+
+    lineEdit->setPlainText(file_content);
+    layout->addWidget(lineEdit);
+    new PythonHighlighter(lineEdit->document());
+
+    // Храним имя файла в свойстве нового таба
+    newTab->setProperty("fileName", file_name);
+
+    qtab->addTab(newTab, QFileInfo(file_name).fileName());
+
+    file.close();
+}
+
+void pl_tab(QTabWidget *qtab)
+{
+    QWidget *newTab = new QWidget();               // Создаем новый виджет для вкладки
+    QVBoxLayout *layout = new QVBoxLayout(newTab); // Добавляем layout для нового виджета
+    QPlainTextEdit *lineEdit = new QPlainTextEdit();
+    lineEdit->setStyleSheet("QPlainTextEdit { color: white; background-color: #BDB76B; }");
+
+    layout->addWidget(lineEdit);
+    qtab->addTab(newTab, "Новая вкладка"); // Добавляем виджет в QTabWidget
+
+    new PythonHighlighter(lineEdit->document());
+}
+
+void save_file(QPlainTextEdit *textEdit, const QString &file_name)
+{
+    QFile file(file_name);
+    // Открываем файл в режиме записи (WriteOnly)
+    if (!file.open(QFile::WriteOnly | QFile::Text))
+    {
+        qDebug() << "Не удалось открыть файл для записи:" << file.errorString();
+        return;
+    }
+
+    QTextStream out(&file);
+    out << textEdit->toPlainText();
+
+    // Закрываем файл после записи
+    file.close();
+}
+
+void save_global(QTabWidget *tab_widget, QWidget *centralWidget)
+{
+    int currentIndex = tab_widget->currentIndex();
+
+    // Получаем текущий виджет (таб)
+    QWidget *currentTab = tab_widget->widget(currentIndex);
+
+    if (currentTab)
+    {
+        // Извлекаем имя файла из свойства
+        QString file_name = currentTab->property("fileName").toString();
+
+        QPlainTextEdit *textEdit = currentTab->findChild<QPlainTextEdit *>();
+
+        if (textEdit)
+        {
+            if (file_name.isEmpty())
+            {
+                // Если имя файла пустое, то предложить сохранить как
+                QString selectedFileName = QFileDialog::getSaveFileName(centralWidget, "Сохранить файл", "", "Все файлы (*.*);;Текстовые файлы (*.txt);;Изображения (*.png;*.jpg;*.bmp)");
+
+                if (!selectedFileName.isEmpty())
+                {
+                    // Сохраним файл с новым именем.
+                    save_file(textEdit, selectedFileName);
+                    currentTab->setProperty("fileName", selectedFileName); // Обновляем имя файла в свойстве.
+                }
+            }
+            else
+            {
+                // Если у нас уже есть имя файла, просто сохраняем.
+                save_file(textEdit, file_name);
+            }
+        }
+        else
+        {
+            qDebug() << "Не удалось найти QTextEdit в текущем табе.";
+        }
+    }
+    else
+    {
+        qDebug() << "Нет текущего таба для сохранения.";
+    }
+}
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
@@ -129,52 +255,43 @@ MainWindow::MainWindow(QWidget *parent)
 
     QWidget *centralWidget = new QWidget(this);
     setCentralWidget(centralWidget);
+    QMenuBar *menuBar = new QMenuBar();
+    QMenu *fileMenu = menuBar->addMenu("Файл");
 
     QMenuBar *menuBar = new QMenuBar();
-    QMenu *fileMenu =  menuBar->addMenu("Файл");
+    QMenu *fileMenu = menuBar->addMenu("Файл");
 
     QAction *create_action = new QAction("Создать", fileMenu);
-        fileMenu -> addAction(create_action);
+    fileMenu->addAction(create_action);
     QAction *open_action = new QAction("Открыть", fileMenu);
-        fileMenu -> addAction(open_action);
+    fileMenu->addAction(open_action);
     QAction *save_action = new QAction("Сохранить", fileMenu);
-        fileMenu -> addAction(save_action);
+    fileMenu->addAction(save_action);
     QAction *exit_action = new QAction("Выход", fileMenu);
-        fileMenu -> addAction(exit_action);
+    fileMenu->addAction(exit_action);
 
-
-    QMenu *progectMenu =  menuBar->addMenu("Проект");
+    QMenu *progectMenu = menuBar->addMenu("Проект");
 
     QAction *create_progect_action = new QAction("Создать новый проект", progectMenu);
-    //fileMenu -> addAction(create_action);
+    // fileMenu -> addAction(create_action);
     QAction *open_progect_action = new QAction("Открыть проект", progectMenu);
-    //fileMenu -> addAction(open_action);
+    // fileMenu -> addAction(open_action);
     QAction *exit_progect_action = new QAction("Выход", progectMenu);
-    //fileMenu -> addAction(exit_action);
-
+    // fileMenu -> addAction(exit_action);
 
     QTabWidget *tab_widget = new QTabWidget;
     tab_widget->setTabsClosable(true);
 
+    QHBoxLayout *layout = new QHBoxLayout(centralWidget);
 
+    layout->setMenuBar(menuBar);
+    layout->addWidget(tab_widget);
 
+    QObject::connect(create_action, &QAction::triggered, [tab_widget]()
+                     { pl_tab(tab_widget); });
 
-
-
-
-    QHBoxLayout * layout = new QHBoxLayout(centralWidget);
-
-    layout-> setMenuBar(menuBar);
-    layout -> addWidget(tab_widget);
-
-
-
-    QObject::connect(create_action, &QAction::triggered, [tab_widget]() {
-        pl_tab(tab_widget);
-
-    });
-
-    QObject::connect(open_action, &QAction::triggered, [centralWidget, tab_widget](){
+    QObject::connect(open_action, &QAction::triggered, [centralWidget, tab_widget]()
+                     {
         QString filePath = selectFile(centralWidget);
 
         if (!filePath.isEmpty()) {
@@ -183,40 +300,32 @@ MainWindow::MainWindow(QWidget *parent)
 
         } else {
             qDebug() << "Файл не выбран.";
-        }
-    });
-
-
+        } });
 
     QObject::connect(exit_action, &QAction::triggered, &QCoreApplication::quit);
 
+    QObject::connect(save_action, &QAction::triggered, [centralWidget, tab_widget]()
+                     { save_global(tab_widget, centralWidget); });
 
-    QObject::connect(save_action, &QAction::triggered, [centralWidget, tab_widget](){
-        save_global(tab_widget , centralWidget);
-    });
+    QObject::connect(tab_widget, &QTabWidget::tabCloseRequested, [tab_widget, centralWidget](int index)
+                     {
+                         // Получите текущий виджет (таб)
+                         QWidget *currentTab = tab_widget->widget(index);
+                         if (currentTab)
+                         {
+                             // Извлекаем имя файла из свойства
+                             QString file_name = currentTab->property("fileName").toString();
+                             QPlainTextEdit *textEdit = currentTab->findChild<QPlainTextEdit *>();
 
-    QObject::connect(tab_widget, &QTabWidget::tabCloseRequested, [tab_widget, centralWidget](int index) {
-        // Получите текущий виджет (таб)
-        QWidget *currentTab = tab_widget->widget(index);
-        if (currentTab) {
-            // Извлекаем имя файла из свойства
-            QString file_name = currentTab->property("fileName").toString();
-            QPlainTextEdit *textEdit = currentTab->findChild<QPlainTextEdit*>();
+                             if (textEdit)
+                             {
+                                 save_global(tab_widget, centralWidget);
+                             }
+                         }
+                         tab_widget->removeTab(index); // Удаляем вкладку после обработки
+                     });
 
-            if (textEdit) {
-                save_global(tab_widget, centralWidget);
-            }
-        }
-        tab_widget->removeTab(index); // Удаляем вкладку после обработки
-    });
-
-
-
-   // highlighter = new PythonHighlighter(texed->document());
-
+    // highlighter = new PythonHighlighter(texed->document());
 }
 
-
-MainWindow::~MainWindow(){}
-
-
+MainWindow::~MainWindow() {}
