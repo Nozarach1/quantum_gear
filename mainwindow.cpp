@@ -142,6 +142,7 @@ MainWindow::MainWindow(QWidget *parent)
     QAction *exit_action = new QAction("Выход", fileMenu);
         fileMenu -> addAction(exit_action);
 
+
     QMenu *progectMenu =  menuBar->addMenu("Проект");
 
     QAction *create_progect_action = new QAction("Создать новый проект", progectMenu);
