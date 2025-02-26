@@ -129,6 +129,7 @@ MainWindow::MainWindow(QWidget *parent)
 
     QWidget *centralWidget = new QWidget(this);
     setCentralWidget(centralWidget);
+
     QMenuBar *menuBar = new QMenuBar();
     QMenu *fileMenu =  menuBar->addMenu("Файл");
 
@@ -141,8 +142,23 @@ MainWindow::MainWindow(QWidget *parent)
     QAction *exit_action = new QAction("Выход", fileMenu);
         fileMenu -> addAction(exit_action);
 
+    QMenu *progectMenu =  menuBar->addMenu("Проект");
+
+    QAction *create_progect_action = new QAction("Создать новый проект", progectMenu);
+    //fileMenu -> addAction(create_action);
+    QAction *open_progect_action = new QAction("Открыть проект", progectMenu);
+    //fileMenu -> addAction(open_action);
+    QAction *exit_progect_action = new QAction("Выход", progectMenu);
+    //fileMenu -> addAction(exit_action);
+
+
     QTabWidget *tab_widget = new QTabWidget;
     tab_widget->setTabsClosable(true);
+
+
+
+
+
 
 
     QHBoxLayout * layout = new QHBoxLayout(centralWidget);
