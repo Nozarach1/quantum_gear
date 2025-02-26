@@ -20,7 +20,37 @@ void PythonHighlighter::initializeHighlightingRules()
     keywords << "def" << "class" << "return" << "if" << "else" << "while" << "for" << "import";
 
     // Добавляем правила для ключевых слов
-    for (const QString &keyword : keywords) {
+    for (const QString     void file_open(QTabWidget *tab_widget , QString file_name) {
+        QWidget *newTab = new QWidget();
+        QVBoxLayout *layout = new QVBoxLayout(newTab);
+
+        QFile file(file_name);
+
+
+        if (!file.open(QFile::ReadOnly | QFile::Text)) {
+            qDebug() << "Не удалось открыть файл:";
+            return;
+        }
+
+        QTextStream in(&file);
+        QString file_content = in.readAll();
+
+        QPlainTextEdit  *lineEdit = new QPlainTextEdit ();
+        lineEdit->setStyleSheet("QPlainTextEdit { color: white; background-color: #BDB76B; }");
+
+
+        lineEdit->setPlainText(file_content);
+        layout->addWidget(lineEdit);
+        new PythonHighlighter(lineEdit->document());
+
+        // Храним имя файла в свойстве нового таба
+        newTab->setProperty("fileName", file_name);
+
+        tab_widget->addTab(newTab, QFileInfo(file_name).fileName());
+
+        file.close();
+    }
+};&keyword : keywords) {
         HighlightingRule rule;
         rule.pattern = QRegularExpression("\\b" + keyword + "\\b");
         rule.format = keywordFormat;
