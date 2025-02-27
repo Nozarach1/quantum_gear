@@ -85,12 +85,7 @@ void save_file (QPlainTextEdit *textEdit, const QString &file_name){
 
     // Закрываем файл после записи
     file.close();
-}class fileexplorer
-{
-public:
-    fileexplorer();
-};
-
+}
 
 
 void save_global(QTabWidget * tab_widget , QWidget *centralWidget){
@@ -105,12 +100,7 @@ void save_global(QTabWidget * tab_widget , QWidget *centralWidget){
 
         QPlainTextEdit *textEdit = currentTab->findChild<QPlainTextEdit*>();
 
-        if (textEdit) class fileexplorer
-            {
-            public:
-                fileexplorer();
-            };
-{
+        if (textEdit) {
             if (file_name.isEmpty()) {
                 // Если имя файла пустое, то предложить сохранить как
                 QString selectedFileName = QFileDialog::getSaveFileName(centralWidget, "Сохранить файл", "", "Все файлы (*.*);;Текстовые файлы (*.txt);;Изображения (*.png;*.jpg;*.bmp)");
@@ -133,13 +123,12 @@ void save_global(QTabWidget * tab_widget , QWidget *centralWidget){
 }
 
 
-MainWindow::MainWifile_openndow(QWidget *parent)
+MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
 {
 
     QWidget *centralWidget = new QWidget(this);
     setCentralWidget(centralWidget);
-
     QMenuBar *menuBar = new QMenuBar();
     QMenu *fileMenu =  menuBar->addMenu("Файл");
 
@@ -148,20 +137,9 @@ MainWindow::MainWifile_openndow(QWidget *parent)
     QAction *open_action = new QAction("Открыть", fileMenu);
         fileMenu -> addAction(open_action);
     QAction *save_action = new QAction("Сохранить", fileMenu);
-        fileMenu -file_open> addAction(save_action);
+        fileMenu -> addAction(save_action);
     QAction *exit_action = new QAction("Выход", fileMenu);
         fileMenu -> addAction(exit_action);
-
-    QMenu *progectMenu = menuBar->addMenu("Проект");
-
-    QAction *create_progect_action = new QAction("Создать новый проект", progectMenu);
-         progectMenu -> addAction(create_progect_action);
-    QAction *open_progect_action = new QAction("Открыть проект", progectMenu);
-         progectMenu -> addAction(open_progect_action);
-    QAction *exit_progect_action = new QAction("Выход", progectMenu);
-         progectMenu -> addAction(exit_progect_action);
-
-
 
     QTabWidget *tab_widget = new QTabWidget;
     tab_widget->setTabsClosable(true);
