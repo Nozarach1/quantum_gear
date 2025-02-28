@@ -1,4 +1,5 @@
 #include "projectexplorer.h"
+#include "codetextedit.h"
 #include <QDebug>
 #include <QFile>
 
@@ -7,14 +8,20 @@ ProjectExplorer::ProjectExplorer(QWidget *parent, QTabWidget *tab_widget)
 {
     QFileSystemModel *model = new QFileSystemModel(this);
     model->setRootPath(QDir::homePath());
-    model->setNameFilters(QStringList() << "*.txt" << "*.cpp"); // Показывать только .txt и .cpp файлы
+    model->setNameFilters(QStringList() << "*.txt" << "*.cpp" << "*.py" << "*.h" << "*.hpp" << "*.c");
 
     QTreeView *treeView = new QTreeView(this);
     treeView->setModel(model);
     treeView->setRootIndex(model->index(QDir::homePath()));  // Устанавливаем корневую директорию для отображения
 
-    treeView->setFixedWidth(200);
-    treeView->setMinimumWidth(100);
+    for (int i = 1; i < model->columnCount(); ++i) {
+        treeView->hideColumn(i);
+    }
+
+    treeView->setFixedWidth(300);
+    for (int i = 1; i < model->columnCount(); ++i) {
+        treeView->hideColumn(i);
+    }
 
     // Настраиваем соединение
     QObject::connect(treeView, &QTreeView::clicked, this, [this, model, tab_widget](const QModelIndex &index) {
@@ -27,7 +34,7 @@ ProjectExplorer::ProjectExplorer(QWidget *parent, QTabWidget *tab_widget)
     setLayout(layout);
 }
 
-void ProjectExplorer::file_open(QTabWidget *tab_widget, QString file_name)
+void ProjectExplorer::file_open(QTabWidget *tab_widget, QString file_name )
 {
     QWidget *newTab = new QWidget();
     QVBoxLayout *layout = new QVBoxLayout(newTab);
@@ -41,8 +48,8 @@ void ProjectExplorer::file_open(QTabWidget *tab_widget, QString file_name)
     QTextStream in(&file);
     QString file_content = in.readAll();
 
-    QPlainTextEdit *lineEdit = new QPlainTextEdit();
-    lineEdit->setStyleSheet("QPlainTextEdit { color: white; background-color: #BDB76B; }");
+    CodeTextEdit *lineEdit = new CodeTextEdit();
+    lineEdit->setStyleSheet("QPlainTextEdit { color: black; background-color: #f5f5f5; }");
     lineEdit->setPlainText(file_content);
     layout->addWidget(lineEdit);
     new PythonHighlighter(lineEdit->document());

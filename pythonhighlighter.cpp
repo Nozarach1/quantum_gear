@@ -27,6 +27,21 @@ void PythonHighlighter::initializeHighlightingRules()
         highlightingRules.append(rule);
     }
 
+
+    QTextCharFormat printFormat;
+    printFormat.setForeground(Qt::darkYellow); // Устанавливаем цвет (оранжевый)
+
+    QStringList keywordsprint;
+    keywordsprint <<  "print"; // Используем keywordsprint, а не keywords
+
+    // Добавляем правила для ключевых слов
+    for (const QString &keyword : keywordsprint) { // Используем keyword, а не keywords
+        HighlightingRule rule;
+        rule.pattern = QRegularExpression("\\b" + keyword + "\\b");
+        rule.format = printFormat;
+        highlightingRules.append(rule);
+    }
+
     // Формат для однострочных комментариев
     QTextCharFormat commentFormat;
     commentFormat.setForeground(Qt::darkGreen);
@@ -47,6 +62,16 @@ void PythonHighlighter::initializeHighlightingRules()
     stringRule.pattern = QRegularExpression("\".*\"");
     stringRule.format = stringFormat;
     highlightingRules.append(stringRule);
+
+
+    // QTextCharFormat defaultFormat;
+    // defaultFormat.setForeground(Qt::black);
+
+    // HighlightingRule defaultRule;
+    // defaultRule.pattern = QRegularExpression("[^\\s]");
+    // defaultRule.format = defaultFormat;
+    // highlightingRules.append(defaultRule);
+
 }
 
 // Переопределенный метод для подсветки текста

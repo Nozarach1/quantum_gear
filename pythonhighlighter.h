@@ -5,6 +5,7 @@
 #include <QTextCharFormat>
 #include <QRegularExpression>
 
+
 class PythonHighlighter : public QSyntaxHighlighter
 {
     Q_OBJECT

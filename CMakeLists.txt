@@ -23,6 +23,10 @@ if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
         MANUAL_FINALIZATION
         ${PROJECT_SOURCES}
         pythonhighlighter.h pythonhighlighter.cpp
+        projectexplorer.h projectexplorer.cpp
+        codetextedit.h codetextedit.cpp
+        linenumberarea.cpp
+        linenumberarea.h
     )
 # Define target properties for Android with Qt 6 as:
 #    set_property(TARGET text_editor APPEND PROPERTY QT_ANDROID_PACKAGE_SOURCE_DIR

@@ -2,7 +2,16 @@
 #define MAINWINDOW_H
 
 #include "pythonhighlighter.h"
+
 #include <QMainWindow>
+#include <QWidget>
+#include <QPlainTextEdit>
+#include <QString>
+#include <QHBoxLayout>
+#include <QTextEdit>
+#include <QMenuBar>
+#include <QFileDialog>
+#include <QDockWidget>
 
 class MainWindow : public QMainWindow
 {

@@ -1,13 +1,8 @@
 #include "mainwindow.h"
-#include "pythonhighlighter.h"
 
-#include <QWidget>
-#include <QPlainTextEdit>
-#include <QString>
-#include <QHBoxLayout>
-#include <QTextEdit>
-#include <QMenuBar>
-#include <QFileDialog>
+#include "projectexplorer.h"
+#include "codetextedit.h"
+
 
 QString  text = ("def hello_world():\n"
                               "    # Это комментарий\n"
@@ -41,8 +36,8 @@ void file_open(QTabWidget *qtab, const QString &file_name) {
     QTextStream in(&file);
     QString file_content = in.readAll();
 
-    QPlainTextEdit  *lineEdit = new QPlainTextEdit ();
-    lineEdit->setStyleSheet("QPlainTextEdit { color: white; background-color: #BDB76B; }");
+    CodeTextEdit  *lineEdit = new CodeTextEdit ();
+    lineEdit->setStyleSheet("QPlainTextEdit { color: black; background-color: #f5f5f5; }");
 
 
     lineEdit->setPlainText(file_content);
@@ -55,16 +50,13 @@ void file_open(QTabWidget *qtab, const QString &file_name) {
     qtab->addTab(newTab, QFileInfo(file_name).fileName());
 
     file.close();
-
 }
-
-
 
 void pl_tab(QTabWidget *qtab) {
     QWidget *newTab = new QWidget(); // Создаем новый виджет для вкладки
     QVBoxLayout *layout = new QVBoxLayout(newTab); // Добавляем layout для нового виджета
-    QPlainTextEdit  *lineEdit = new QPlainTextEdit ();
-    lineEdit->setStyleSheet("QPlainTextEdit { color: white; background-color: #BDB76B; }");
+    CodeTextEdit  *lineEdit = new CodeTextEdit ();
+    lineEdit->setStyleSheet("QPlainTextEdit { color: black41; background-color: #f5f5f5; }");
 
     layout->addWidget(lineEdit);
     qtab->addTab(newTab, "Новая вкладка");// Добавляем виджет в QTabWidget
@@ -72,7 +64,7 @@ void pl_tab(QTabWidget *qtab) {
     new PythonHighlighter(lineEdit->document());
 }
 
-void save_file (QPlainTextEdit *textEdit, const QString &file_name){
+void save_file (CodeTextEdit *textEdit, const QString &file_name){
     QFile file(file_name);
     // Открываем файл в режиме записи (WriteOnly)
     if (!file.open(QFile::WriteOnly | QFile::Text)) {
@@ -98,7 +90,7 @@ void save_global(QTabWidget * tab_widget , QWidget *centralWidget){
         // Извлекаем имя файла из свойства
         QString file_name = currentTab->property("fileName").toString();
 
-        QPlainTextEdit *textEdit = currentTab->findChild<QPlainTextEdit*>();
+        CodeTextEdit *textEdit = currentTab->findChild<CodeTextEdit*>();
 
         if (textEdit) {
             if (file_name.isEmpty()) {
@@ -128,9 +120,15 @@ MainWindow::MainWindow(QWidget *parent)
 {
 
     QWidget *centralWidget = new QWidget(this);
+    QHBoxLayout *layout = new QHBoxLayout(centralWidget);
+    centralWidget->setLayout(layout);
+
     setCentralWidget(centralWidget);
-    QMenuBar *menuBar = new QMenuBar();
+
+    QMenuBar *menuBar = this->menuBar();
+
     QMenu *fileMenu =  menuBar->addMenu("Файл");
+    QMenu *progectMenu = menuBar->addMenu("Проект");
 
     QAction *create_action = new QAction("Создать", fileMenu);
         fileMenu -> addAction(create_action);
@@ -141,16 +139,30 @@ MainWindow::MainWindow(QWidget *parent)
     QAction *exit_action = new QAction("Выход", fileMenu);
         fileMenu -> addAction(exit_action);
 
+    QAction *create_progect_action = new QAction("Создать новый проект", progectMenu);
+        progectMenu -> addAction(create_progect_action);
+    QAction *open_progect_action = new QAction("Открыть проект", progectMenu);
+
+    QAction *  open_project_explorer = new QAction("Обозреватель проекта", progectMenu);
+
+        progectMenu -> addAction(open_project_explorer);
+
+        progectMenu -> addAction(open_progect_action);
+    QAction *exit_progect_action = new QAction("Выход", progectMenu);
+        progectMenu -> addAction(exit_progect_action);
+
     QTabWidget *tab_widget = new QTabWidget;
     tab_widget->setTabsClosable(true);
 
+    ProjectExplorer * projectexplorer = new ProjectExplorer(centralWidget , tab_widget);
 
-    QHBoxLayout * layout = new QHBoxLayout(centralWidget);
-
-    layout-> setMenuBar(menuBar);
+    //layout -> setMenuBar(menuBar);
+    //layout -> addWidget(projectexplorer);
     layout -> addWidget(tab_widget);
-
-
+    QDockWidget *dockWidget = new QDockWidget(tr("Project Explorer"), this);
+    dockWidget->setWidget(projectexplorer);
+    dockWidget->setAllowedAreas(Qt::LeftDockWidgetArea | Qt::RightDockWidgetArea);
+    addDockWidget(Qt::LeftDockWidgetArea, dockWidget);
 
     QObject::connect(create_action, &QAction::triggered, [tab_widget]() {
         pl_tab(tab_widget);
@@ -168,8 +180,6 @@ MainWindow::MainWindow(QWidget *parent)
             qDebug() << "Файл не выбран.";
         }
     });
-
-
 
     QObject::connect(exit_action, &QAction::triggered, &QCoreApplication::quit);
 
@@ -192,7 +202,12 @@ MainWindow::MainWindow(QWidget *parent)
         }
         tab_widget->removeTab(index); // Удаляем вкладку после обработки
     });
-
+    // QObject::connect(open_project_explorer, &QAction::triggered, [centralWidget, tab_widget](){
+    //     QDockWidget *dockWidget = new QDockWidget(tr("Project Explorer"), this);
+    //     dockWidget->setWidget(projectexplorer);
+    //     dockWidget->setAllowedAreas(Qt::LeftDockWidgetArea | Qt::RightDockWidgetArea);
+    //     addDockWidget(Qt::LeftDockWidgetArea, dockWidget);
+    // });
 
 
    // highlighter = new PythonHighlighter(texed->document());
