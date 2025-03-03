@@ -8,7 +8,7 @@
 
 #include <QMainWindow>
 #include <QWidget>
-#include <QPlainTextEdit>
+//#include <QPlainTextEdit>
 #include <QString>
 #include <QVBoxLayout>
 #include <QHBoxLayout>

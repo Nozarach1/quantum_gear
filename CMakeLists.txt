@@ -11,24 +11,28 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 find_package(QT NAMES Qt6 Qt5 REQUIRED COMPONENTS Widgets)
 find_package(Qt${QT_VERSION_MAJOR} REQUIRED COMPONENTS Widgets)
-
+find_package(Qt6 REQUIRED COMPONENTS Core Widgets Multimedia)
 set(PROJECT_SOURCES
-        main.cpp
-        mainwindow.cpp
-        mainwindow.h
+        src/main.cpp
+        src/mainwindow.cpp
+        src/mainwindow.h
+
 )
 
 if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
     qt_add_executable(text_editor
         MANUAL_FINALIZATION
         ${PROJECT_SOURCES}
-        pythonhighlighter.h pythonhighlighter.cpp
-        projectexplorer.h projectexplorer.cpp
-        codetextedit.h codetextedit.cpp
-        linenumberarea.cpp
-        linenumberarea.h
-    console.h console.cpp
-
+        src/pythonhighlighter.h src/pythonhighlighter.cpp
+        src/projectexplorer.h src/projectexplorer.cpp
+        src/codetextedit.h src/codetextedit.cpp
+        src/linenumberarea.cpp
+        src/linenumberarea.h
+    src/console.h src/console.cpp
+    src/startwindow.h src/startwindow.cpp
+    src/introwindow.h src/introwindow.cpp
+    #images/start_frame.png
+    resources.qrc
 
 
     )
@@ -50,7 +54,9 @@ else()
     endif()
 endif()
 
-target_link_libraries(text_editor PRIVATE Qt${QT_VERSION_MAJOR}::Widgets)
+target_link_libraries(text_editor PRIVATE Qt${QT_VERSION_MAJOR}::Widgets
+    Qt6::Multimedia)
+
 
 # Qt for iOS sets MACOSX_BUNDLE_GUI_IDENTIFIER automatically since Qt 6.1.
 # If you are developing for iOS or macOS you should consider setting an

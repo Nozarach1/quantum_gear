@@ -70,6 +70,13 @@ Console::Console(QWidget *parent) : QWidget(parent) {
         output->appendPlainText(QString("Process error: %1").arg(error));
     }
 
+    Console::~Console() {
+        if (process) {
+            process->terminate();
+            process->waitForFinished();
+            delete process;
+        }
+    }
 
 
 

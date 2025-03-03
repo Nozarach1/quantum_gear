@@ -15,6 +15,7 @@ class Console : public QWidget {
 
 public:
     Console(QWidget *parent = nullptr);
+    ~Console();
 
 protected:
     void keyPressEvent(QKeyEvent *event) override;

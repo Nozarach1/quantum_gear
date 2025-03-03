@@ -17,7 +17,7 @@ void PythonHighlighter::initializeHighlightingRules()
 
     // Список ключевых слов
     QStringList keywords;
-    keywords << "def" << "class" << "return" << "if" << "else" << "while" << "for" << "import";
+    keywords << "def" << "class" << "return" << "w" << "else" << "while" << "for" << "import";
 
     // Добавляем правила для ключевых слов
     for (const QString &keyword : keywords) {

@@ -140,6 +140,7 @@ MainWindow::MainWindow(QWidget *parent)
     setCentralWidget(centralWidget);
     QHBoxLayout *layouth = new QHBoxLayout(centralWidget);
     layout -> addLayout(layouth);
+
     QSpacerItem * spase = new QSpacerItem(0, 0, QSizePolicy::Expanding);
 
     Console *console = new Console;
@@ -176,12 +177,14 @@ MainWindow::MainWindow(QWidget *parent)
         progectMenu -> addAction(exit_progect_action);
 
     QTabWidget *tab_widget = new QTabWidget;
+
     tab_widget->setTabsClosable(true);
 
 
 
     layout -> addWidget(tab_widget);
     layout ->addWidget(console);
+
     ProjectExplorer * projectexplorer = new ProjectExplorer(centralWidget , tab_widget);
     open_project_exp(projectexplorer);
 
@@ -215,7 +218,7 @@ MainWindow::MainWindow(QWidget *parent)
         if (currentTab) {
             // Извлекаем имя файла из свойства
             QString file_name = currentTab->property("fileName").toString();
-            QPlainTextEdit *textEdit = currentTab->findChild<QPlainTextEdit*>();
+            CodeTextEdit *textEdit = currentTab->findChild<CodeTextEdit*>();
 
             if (textEdit) {
                 save_global(tab_widget, centralWidget);
