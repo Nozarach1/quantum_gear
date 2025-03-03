@@ -20,7 +20,7 @@ QString selectFile(QWidget *parent) {
     return fileName;
 }
 
-void file_open(QTabWidget *qtab, const QString &file_name) {
+void MainWindow::file_open(QTabWidget *qtab, const QString &file_name) {
 
     QWidget *newTab = new QWidget();
     QVBoxLayout *layout = new QVBoxLayout(newTab);
@@ -52,7 +52,7 @@ void file_open(QTabWidget *qtab, const QString &file_name) {
     file.close();
 }
 
-void pl_tab(QTabWidget *qtab) {
+void MainWindow::pl_tab(QTabWidget *qtab) {
     QWidget *newTab = new QWidget(); // Создаем новый виджет для вкладки
     QVBoxLayout *layout = new QVBoxLayout(newTab); // Добавляем layout для нового виджета
     CodeTextEdit  *lineEdit = new CodeTextEdit ();
@@ -64,7 +64,7 @@ void pl_tab(QTabWidget *qtab) {
     new PythonHighlighter(lineEdit->document());
 }
 
-void save_file (CodeTextEdit *textEdit, const QString &file_name){
+void MainWindow::save_file (CodeTextEdit *textEdit, const QString &file_name){
     QFile file(file_name);
     // Открываем файл в режиме записи (WriteOnly)
     if (!file.open(QFile::WriteOnly | QFile::Text)) {
@@ -79,8 +79,7 @@ void save_file (CodeTextEdit *textEdit, const QString &file_name){
     file.close();
 }
 
-
-void save_global(QTabWidget * tab_widget , QWidget *centralWidget){
+void MainWindow::save_global(QTabWidget * tab_widget , QWidget *centralWidget){
     int currentIndex = tab_widget->currentIndex();
 
     // Получаем текущий виджет (таб)
@@ -114,16 +113,41 @@ void save_global(QTabWidget * tab_widget , QWidget *centralWidget){
     }
 }
 
+void MainWindow::open_project_exp(ProjectExplorer * projectexplorer){
 
+    //ProjectExplorer * projectexplorer = new ProjectExplorer(centralWidget , tab_widget);
+    QDockWidget *dockWidget = new QDockWidget(tr("Проект"), this);
+    dockWidget->setWidget(projectexplorer);
+    dockWidget->setAllowedAreas(Qt::LeftDockWidgetArea | Qt::RightDockWidgetArea);
+    addDockWidget(Qt::LeftDockWidgetArea, dockWidget);
+}
+void handleCommand(const QString& command)
+{
+    qDebug() << "Command entered: " << command;
+    //Do something with command.
+}
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
 {
 
+    QPushButton *run = new QPushButton("&Run");
+    QPushButton *run_debug = new QPushButton("&Run Debug");
+
     QWidget *centralWidget = new QWidget(this);
-    QHBoxLayout *layout = new QHBoxLayout(centralWidget);
+    QVBoxLayout *layout = new QVBoxLayout(centralWidget);
     centralWidget->setLayout(layout);
 
     setCentralWidget(centralWidget);
+    QHBoxLayout *layouth = new QHBoxLayout(centralWidget);
+    layout -> addLayout(layouth);
+    QSpacerItem * spase = new QSpacerItem(0, 0, QSizePolicy::Expanding);
+
+    Console *console = new Console;
+
+    layouth -> addWidget(run);
+    layouth -> addWidget(run_debug);
+    layouth ->addSpacerItem(spase);
+
 
     QMenuBar *menuBar = this->menuBar();
 
@@ -154,22 +178,19 @@ MainWindow::MainWindow(QWidget *parent)
     QTabWidget *tab_widget = new QTabWidget;
     tab_widget->setTabsClosable(true);
 
-    ProjectExplorer * projectexplorer = new ProjectExplorer(centralWidget , tab_widget);
 
-    //layout -> setMenuBar(menuBar);
-    //layout -> addWidget(projectexplorer);
+
     layout -> addWidget(tab_widget);
-    QDockWidget *dockWidget = new QDockWidget(tr("Project Explorer"), this);
-    dockWidget->setWidget(projectexplorer);
-    dockWidget->setAllowedAreas(Qt::LeftDockWidgetArea | Qt::RightDockWidgetArea);
-    addDockWidget(Qt::LeftDockWidgetArea, dockWidget);
+    layout ->addWidget(console);
+    ProjectExplorer * projectexplorer = new ProjectExplorer(centralWidget , tab_widget);
+    open_project_exp(projectexplorer);
 
-    QObject::connect(create_action, &QAction::triggered, [tab_widget]() {
+    QObject::connect(create_action, &QAction::triggered, [tab_widget, this]() {
         pl_tab(tab_widget);
 
     });
 
-    QObject::connect(open_action, &QAction::triggered, [centralWidget, tab_widget](){
+    QObject::connect(open_action, &QAction::triggered, [centralWidget, tab_widget, this](){
         QString filePath = selectFile(centralWidget);
 
         if (!filePath.isEmpty()) {
@@ -184,11 +205,11 @@ MainWindow::MainWindow(QWidget *parent)
     QObject::connect(exit_action, &QAction::triggered, &QCoreApplication::quit);
 
 
-    QObject::connect(save_action, &QAction::triggered, [centralWidget, tab_widget](){
+    QObject::connect(save_action, &QAction::triggered, [centralWidget, tab_widget, this](){
         save_global(tab_widget , centralWidget);
     });
 
-    QObject::connect(tab_widget, &QTabWidget::tabCloseRequested, [tab_widget, centralWidget](int index) {
+    QObject::connect(tab_widget, &QTabWidget::tabCloseRequested, [tab_widget, centralWidget, this](int index) {
         // Получите текущий виджет (таб)
         QWidget *currentTab = tab_widget->widget(index);
         if (currentTab) {
@@ -202,15 +223,15 @@ MainWindow::MainWindow(QWidget *parent)
         }
         tab_widget->removeTab(index); // Удаляем вкладку после обработки
     });
-    // QObject::connect(open_project_explorer, &QAction::triggered, [centralWidget, tab_widget](){
-    //     QDockWidget *dockWidget = new QDockWidget(tr("Project Explorer"), this);
-    //     dockWidget->setWidget(projectexplorer);
-    //     dockWidget->setAllowedAreas(Qt::LeftDockWidgetArea | Qt::RightDockWidgetArea);
-    //     addDockWidget(Qt::LeftDockWidgetArea, dockWidget);
-    // });
 
 
-   // highlighter = new PythonHighlighter(texed->document());
+    QObject::connect(open_project_explorer, &QAction::triggered, [projectexplorer, this]() {
+        open_project_exp(projectexplorer);
+
+    });
+
+
+
 
 }
 

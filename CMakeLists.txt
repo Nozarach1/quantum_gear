@@ -27,6 +27,10 @@ if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
         codetextedit.h codetextedit.cpp
         linenumberarea.cpp
         linenumberarea.h
+    console.h console.cpp
+
+
+
     )
 # Define target properties for Android with Qt 6 as:
 #    set_property(TARGET text_editor APPEND PROPERTY QT_ANDROID_PACKAGE_SOURCE_DIR
