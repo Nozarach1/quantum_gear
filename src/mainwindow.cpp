@@ -126,9 +126,17 @@ void handleCommand(const QString& command)
     qDebug() << "Command entered: " << command;
     //Do something with command.
 }
+void MainWindow::setProjectName(const QString &name)
+{
+    QString * names = new QString(name);  // Отображаем имя проекта в QLabel
+}
+
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
 {
+
+
+
 
     QPushButton *run = new QPushButton("&Run");
     QPushButton *run_debug = new QPushButton("&Run Debug");
@@ -177,8 +185,8 @@ MainWindow::MainWindow(QWidget *parent)
         progectMenu -> addAction(exit_progect_action);
 
     QTabWidget *tab_widget = new QTabWidget;
-
-    tab_widget->setTabsClosable(true);
+        tab_widget->setMovable(true);
+        tab_widget->setTabsClosable(true);
 
 
 

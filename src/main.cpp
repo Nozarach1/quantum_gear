@@ -1,5 +1,6 @@
 #include "mainwindow.h"
 #include "introwindow.h"
+#include "startmenu.h"
 #include <QApplication>
 #include <QTimer>
 #include <QPixmap>
@@ -27,20 +28,26 @@ int main(int argc, char *argv[])
                     "QPushButton { background-color: #4CAF50; color: white; }"
                     "QLabel { color: white; }");
 
+
+            QElapsedTimer timer;
+            timer.start();
+            while (timer.elapsed() < 3000) {
+                a.processEvents(); // Обрабатываем события, чтобы приложение не зависло
+            }
+
+        splash.close();
+            startmenu * menu = new startmenu;
+        menu->exec();
+
     // Создаем главное окно, но не показываем его сразу
     MainWindow w;
     w.setWindowTitle("Жесть какой текстовый редактор");
     w.setWindowState(Qt::WindowMaximized);
 
     // Задержка в 3 секунды
-    QElapsedTimer timer;
-    timer.start();
-    while (timer.elapsed() < 3000) {
-        a.processEvents(); // Обрабатываем события, чтобы приложение не зависло
-    }
 
     // Закрываем начальный экран и показываем главное окно
-    splash.close();
+
     w.show();
 
     return a.exec();

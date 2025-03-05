@@ -29,10 +29,12 @@ if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
         src/linenumberarea.cpp
         src/linenumberarea.h
     src/console.h src/console.cpp
-    src/startwindow.h src/startwindow.cpp
+
     src/introwindow.h src/introwindow.cpp
-    #images/start_frame.png
     resources.qrc
+    src/startmenu.h src/startmenu.cpp src/startmenu.ui
+
+
 
 
     )
