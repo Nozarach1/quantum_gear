@@ -15,6 +15,7 @@ class startmenu : public QDialog
 public:
     explicit startmenu(QWidget *parent = nullptr);
     ~startmenu();
+    QString name;
 
 private slots:
 

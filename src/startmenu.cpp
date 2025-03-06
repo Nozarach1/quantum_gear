@@ -31,14 +31,16 @@ void startmenu::on_consolepythobutt_clicked()
 
     currentTab->layout()->addWidget(nameprogect);
     currentTab->layout()->addWidget(Create);
+    this->name = nameprogect->text();
 }
 
 void startmenu::on_CPPConsolebutton_clicked()
 {
-    QLineEdit *nameprogect = new QLineEdit(this);
+
+    QLineEdit *nameprogect = new QLineEdit("Название проекта",this);
     QPushButton *Create = new QPushButton("Создать", this);
 
-    QWidget *currentTab = ui->tabWidget->widget(1);
+    QWidget *currentTab = ui->tabWidget->widget(0);
 
     if (!currentTab->layout()) {
         QHBoxLayout *layout = new QHBoxLayout(currentTab);
@@ -47,4 +49,5 @@ void startmenu::on_CPPConsolebutton_clicked()
 
     currentTab->layout()->addWidget(nameprogect);
     currentTab->layout()->addWidget(Create);
+    this->name = nameprogect->text();
 }

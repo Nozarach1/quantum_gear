@@ -25,7 +25,7 @@ class MainWindow : public QMainWindow
 public:
 
 
-
+    QString * nameprogect;
     void file_open(QTabWidget *qtab, const QString &file_name);
 
     void pl_tab(QTabWidget *qtab);
@@ -38,7 +38,6 @@ public:
 
     MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
-public slots:
     void setProjectName(const QString &name);
 private:
     PythonHighlighter *highlighter;

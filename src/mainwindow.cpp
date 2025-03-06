@@ -129,7 +129,9 @@ void handleCommand(const QString& command)
 void MainWindow::setProjectName(const QString &name)
 {
     QString * names = new QString(name);  // Отображаем имя проекта в QLabel
+    this->nameprogect = names;
 }
+
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
