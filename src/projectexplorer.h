@@ -8,12 +8,13 @@
 #include <QVBoxLayout>
 #include <QTabWidget>
 #include <QPlainTextEdit>
+#include <QPushButton>
 
 class ProjectExplorer : public QWidget
 {
     Q_OBJECT
 public:
-    ProjectExplorer(QWidget *parent = nullptr, QTabWidget *tab_widget = nullptr);
+    ProjectExplorer(QWidget *parent = nullptr, QTabWidget *tab_widget = nullptr, QString nameproject = nullptr);
 
 private:
     void file_open(QTabWidget *tab_widget, QString file_name);

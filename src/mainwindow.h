@@ -25,7 +25,8 @@ class MainWindow : public QMainWindow
 public:
 
 
-    QString * nameprogect;
+
+
     void file_open(QTabWidget *qtab, const QString &file_name);
 
     void pl_tab(QTabWidget *qtab);
@@ -34,12 +35,15 @@ public:
 
     void save_global(QTabWidget * tab_widget , QWidget *centralWidget);
 
-    void open_project_exp(ProjectExplorer * projectexplorer);
+    void open_project_exp(ProjectExplorer * projectexplorer,  QString name);
+    void open_console(Console * console);
 
-    MainWindow(QWidget *parent = nullptr);
+    MainWindow(QWidget *parent = nullptr , QString nameprogect = nullptr);
     ~MainWindow();
-    void setProjectName(const QString &name);
+
+    //void setProjectName(const QString &name );
 private:
     PythonHighlighter *highlighter;
+    //QString nameprogect;
 };
 #endif // MAINWINDOW_H

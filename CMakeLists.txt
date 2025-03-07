@@ -33,6 +33,7 @@ if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
     src/introwindow.h src/introwindow.cpp
     resources.qrc
     src/startmenu.h src/startmenu.cpp src/startmenu.ui
+    src/dialogfilename.h src/dialogfilename.cpp src/dialogfilename.ui
 
 
 

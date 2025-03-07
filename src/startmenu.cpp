@@ -19,35 +19,46 @@ startmenu::~startmenu()
 void startmenu::on_consolepythobutt_clicked()
 {
 
-    QLineEdit *nameprogect = new QLineEdit("Название проекта",this);
+    QLineEdit *nameprogect = new QLineEdit(this);
     QPushButton *Create = new QPushButton("Создать", this);
 
     QWidget *currentTab = ui->tabWidget->widget(0);
 
-    if (!currentTab->layout()) {
-        QHBoxLayout *layout = new QHBoxLayout(currentTab);
-        currentTab->setLayout(layout);
-    }
+    QHBoxLayout *layout = new QHBoxLayout(currentTab);
+    currentTab->setLayout(layout);
+
 
     currentTab->layout()->addWidget(nameprogect);
     currentTab->layout()->addWidget(Create);
-    this->name = nameprogect->text();
+
+
+    QObject::connect(Create , &QPushButton::clicked, this, [ nameprogect , this](){
+        this->name = nameprogect->text();
+        emit nameEntered(name);
+        this->close();
+    });
 }
 
 void startmenu::on_CPPConsolebutton_clicked()
 {
 
-    QLineEdit *nameprogect = new QLineEdit("Название проекта",this);
+    QLineEdit *nameprogect = new QLineEdit(this);
     QPushButton *Create = new QPushButton("Создать", this);
 
-    QWidget *currentTab = ui->tabWidget->widget(0);
+    QWidget *currentTab = ui->tabWidget->widget(1);
 
-    if (!currentTab->layout()) {
-        QHBoxLayout *layout = new QHBoxLayout(currentTab);
-        currentTab->setLayout(layout);
-    }
+
+    QHBoxLayout *layout = new QHBoxLayout(currentTab);
+    currentTab->setLayout(layout);
+
 
     currentTab->layout()->addWidget(nameprogect);
     currentTab->layout()->addWidget(Create);
-    this->name = nameprogect->text();
+
+    QObject::connect(Create , &QPushButton::clicked, this, [ nameprogect , this](){
+        this->name = nameprogect->text();
+        emit nameEntered(name);
+        this->close();
+    });
+
 }

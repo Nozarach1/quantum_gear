@@ -113,27 +113,31 @@ void MainWindow::save_global(QTabWidget * tab_widget , QWidget *centralWidget){
     }
 }
 
-void MainWindow::open_project_exp(ProjectExplorer * projectexplorer){
+void MainWindow::open_project_exp(ProjectExplorer * projectexplorer , QString name){
 
-    //ProjectExplorer * projectexplorer = new ProjectExplorer(centralWidget , tab_widget);
-    QDockWidget *dockWidget = new QDockWidget(tr("Проект"), this);
+    QDockWidget *dockWidget = new QDockWidget(tr(name.toUtf8()), this);
     dockWidget->setWidget(projectexplorer);
     dockWidget->setAllowedAreas(Qt::LeftDockWidgetArea | Qt::RightDockWidgetArea);
     addDockWidget(Qt::LeftDockWidgetArea, dockWidget);
 }
+void MainWindow::open_console(Console * console){
+
+    QDockWidget *dockWidget0 = new QDockWidget(this);
+    dockWidget0->setWidget(console);
+    dockWidget0->setAllowedAreas(Qt::BottomDockWidgetArea | Qt::TopDockWidgetArea);
+    addDockWidget(Qt::BottomDockWidgetArea, dockWidget0);
+}
+
+
+
 void handleCommand(const QString& command)
 {
     qDebug() << "Command entered: " << command;
     //Do something with command.
 }
-void MainWindow::setProjectName(const QString &name)
-{
-    QString * names = new QString(name);  // Отображаем имя проекта в QLabel
-    this->nameprogect = names;
-}
 
 
-MainWindow::MainWindow(QWidget *parent)
+MainWindow::MainWindow(QWidget *parent , QString nameprogect)
     : QMainWindow(parent)
 {
 
@@ -154,6 +158,7 @@ MainWindow::MainWindow(QWidget *parent)
     QSpacerItem * spase = new QSpacerItem(0, 0, QSizePolicy::Expanding);
 
     Console *console = new Console;
+    open_console(console);
 
     layouth -> addWidget(run);
     layouth -> addWidget(run_debug);
@@ -177,13 +182,12 @@ MainWindow::MainWindow(QWidget *parent)
     QAction *create_progect_action = new QAction("Создать новый проект", progectMenu);
         progectMenu -> addAction(create_progect_action);
     QAction *open_progect_action = new QAction("Открыть проект", progectMenu);
-
-    QAction *  open_project_explorer = new QAction("Обозреватель проекта", progectMenu);
-
-        progectMenu -> addAction(open_project_explorer);
-
         progectMenu -> addAction(open_progect_action);
+    QAction *  open_project_explorer = new QAction("Обозреватель проекта", progectMenu);
+        progectMenu -> addAction(open_project_explorer);
+    QAction *  open_console = new QAction("Терминал", progectMenu);
     QAction *exit_progect_action = new QAction("Выход", progectMenu);
+
         progectMenu -> addAction(exit_progect_action);
 
     QTabWidget *tab_widget = new QTabWidget;
@@ -193,10 +197,11 @@ MainWindow::MainWindow(QWidget *parent)
 
 
     layout -> addWidget(tab_widget);
-    layout ->addWidget(console);
 
-    ProjectExplorer * projectexplorer = new ProjectExplorer(centralWidget , tab_widget);
-    open_project_exp(projectexplorer);
+
+    ProjectExplorer * projectexplorer = new ProjectExplorer(centralWidget , tab_widget, nameprogect);
+
+    open_project_exp(projectexplorer , nameprogect);
 
     QObject::connect(create_action, &QAction::triggered, [tab_widget, this]() {
         pl_tab(tab_widget);
@@ -238,8 +243,8 @@ MainWindow::MainWindow(QWidget *parent)
     });
 
 
-    QObject::connect(open_project_explorer, &QAction::triggered, [projectexplorer, this]() {
-        open_project_exp(projectexplorer);
+    QObject::connect(open_project_explorer, &QAction::triggered, [projectexplorer,nameprogect, this]() {
+        open_project_exp(projectexplorer, nameprogect);
 
     });
 

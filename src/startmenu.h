@@ -17,6 +17,8 @@ public:
     ~startmenu();
     QString name;
 
+signals:
+    void nameEntered(const QString& name);
 private slots:
 
     void on_consolepythobutt_clicked();

@@ -36,15 +36,21 @@ int main(int argc, char *argv[])
             }
 
         splash.close();
-            startmenu * menu = new startmenu;
-        QString name = menu->name;
-        menu->exec();
+
+    QString name;
+    startmenu * menu = new startmenu;
+
+    QObject::connect(menu, &startmenu::nameEntered,[&name](const QString& enteredName) {
+        name = enteredName;
+    });
+    menu->exec();
 
     // Создаем главное окно, но не показываем его сразу
-    MainWindow w;
+    MainWindow w(nullptr , name);
+   // w.setProjectName(name);
     w.setWindowTitle("Жесть какой текстовый редактор");
     w.setWindowState(Qt::WindowMaximized);
-    w.setProjectName(name);
+
 
     // Задержка в 3 секунды
 
