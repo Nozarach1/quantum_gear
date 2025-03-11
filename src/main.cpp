@@ -52,9 +52,7 @@ int main(int argc, char *argv[])
     w.setWindowState(Qt::WindowMaximized);
 
 
-    // Задержка в 3 секунды
 
-    // Закрываем начальный экран и показываем главное окно
 
     w.show();
 

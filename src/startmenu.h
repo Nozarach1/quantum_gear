@@ -15,7 +15,7 @@ class startmenu : public QDialog
 public:
     explicit startmenu(QWidget *parent = nullptr);
     ~startmenu();
-    QString name;
+
 
 signals:
     void nameEntered(const QString& name);
@@ -25,9 +25,11 @@ private slots:
 
     void on_CPPConsolebutton_clicked();
 
+    void on_pushButton_clicked();
+
 private:
     Ui::startmenu *ui;
-
+    QString name;
 };
 
 #endif // STARTMENU_H

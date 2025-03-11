@@ -3,6 +3,7 @@
 #include <QLineEdit>
 #include <QPushButton>
 #include <QHBoxLayout>
+#include <QFileDialog>
 
 startmenu::startmenu(QWidget *parent)
     : QDialog(parent)
@@ -36,6 +37,7 @@ void startmenu::on_consolepythobutt_clicked()
         this->name = nameprogect->text();
         emit nameEntered(name);
         this->close();
+
     });
 }
 
@@ -62,3 +64,16 @@ void startmenu::on_CPPConsolebutton_clicked()
     });
 
 }
+
+void startmenu::on_pushButton_clicked()
+{
+
+    QString dir = QFileDialog::getExistingDirectory(this, tr("Open Project"), "/home/deck/Documents/", QFileDialog::ShowDirsOnly);
+    QDir selectedDir(dir);
+
+    name = selectedDir.dirName();
+    emit nameEntered(name);
+    this->close();
+
+}
+
