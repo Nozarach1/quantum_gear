@@ -1,7 +1,6 @@
 #include "mainwindow.h"
 
-#include "projectexplorer.h"
-#include "codetextedit.h"
+
 
 
 QString  text = ("def hello_world():\n"
@@ -120,6 +119,7 @@ void MainWindow::open_project_exp(ProjectExplorer * projectexplorer , QString na
     dockWidget->setAllowedAreas(Qt::LeftDockWidgetArea | Qt::RightDockWidgetArea);
     addDockWidget(Qt::LeftDockWidgetArea, dockWidget);
 }
+
 void MainWindow::open_console(Console * console){
 
     QDockWidget *dockWidget0 = new QDockWidget(this);
@@ -130,20 +130,13 @@ void MainWindow::open_console(Console * console){
 
 
 
-void handleCommand(const QString& command)
-{
+void handleCommand(const QString& command) {
     qDebug() << "Command entered: " << command;
     //Do something with command.
 }
 
 
-MainWindow::MainWindow(QWidget *parent , QString nameprogect)
-    : QMainWindow(parent)
-{
-
-
-
-
+MainWindow::MainWindow(QWidget *parent , QString nameprogect , QString program_lang) : QMainWindow(parent) {
     QPushButton *run = new QPushButton("&Run");
     QPushButton *run_debug = new QPushButton("&Run Debug");
 
@@ -198,11 +191,11 @@ MainWindow::MainWindow(QWidget *parent , QString nameprogect)
 
     layout -> addWidget(tab_widget);
 
-
-    ProjectExplorer * projectexplorer = new ProjectExplorer(centralWidget , tab_widget, nameprogect);
+//?
+    ProjectExplorer * projectexplorer = new ProjectExplorer(centralWidget , tab_widget, nameprogect ,program_lang);
 
     open_project_exp(projectexplorer , nameprogect);
-
+//?
     QObject::connect(create_action, &QAction::triggered, [tab_widget, this]() {
         pl_tab(tab_widget);
 

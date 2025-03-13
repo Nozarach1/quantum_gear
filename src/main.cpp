@@ -38,21 +38,20 @@ int main(int argc, char *argv[])
         splash.close();
 
     QString name;
+    QString proglan;
     startmenu * menu = new startmenu;
 
-    QObject::connect(menu, &startmenu::nameEntered,[&name](const QString& enteredName) {
+    QObject::connect(menu, &startmenu::nameEntered,[&name , &proglan](const QString& enteredName , const QString& enteredProglan) {
         name = enteredName;
+        proglan = enteredProglan;
     });
     menu->exec();
 
     // Создаем главное окно, но не показываем его сразу
-    MainWindow w(nullptr , name);
+    MainWindow w(nullptr , name, proglan);
    // w.setProjectName(name);
     w.setWindowTitle("Жесть какой текстовый редактор");
     w.setWindowState(Qt::WindowMaximized);
-
-
-
 
     w.show();
 

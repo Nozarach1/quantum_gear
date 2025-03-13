@@ -35,9 +35,9 @@ void startmenu::on_consolepythobutt_clicked()
 
     QObject::connect(Create , &QPushButton::clicked, this, [ nameprogect , this](){
         this->name = nameprogect->text();
-        emit nameEntered(name);
+        this->proglan = "PYTHON";
+        emit nameEntered(name, proglan);
         this->close();
-
     });
 }
 
@@ -59,7 +59,8 @@ void startmenu::on_CPPConsolebutton_clicked()
 
     QObject::connect(Create , &QPushButton::clicked, this, [ nameprogect , this](){
         this->name = nameprogect->text();
-        emit nameEntered(name);
+        this->proglan = "CPP";
+        emit nameEntered(name, proglan);
         this->close();
     });
 
@@ -72,7 +73,7 @@ void startmenu::on_pushButton_clicked()
     QDir selectedDir(dir);
 
     name = selectedDir.dirName();
-    emit nameEntered(name);
+    emit nameEntered(name, proglan);
     this->close();
 
 }

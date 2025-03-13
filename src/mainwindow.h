@@ -38,7 +38,7 @@ public:
     void open_project_exp(ProjectExplorer * projectexplorer,  QString name);
     void open_console(Console * console);
 
-    MainWindow(QWidget *parent = nullptr , QString nameprogect = nullptr);
+    MainWindow(QWidget *parent = nullptr , QString nameprogect = nullptr , QString program_lang = nullptr);
     ~MainWindow();
 
     //void setProjectName(const QString &name );

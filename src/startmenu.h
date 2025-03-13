@@ -18,7 +18,7 @@ public:
 
 
 signals:
-    void nameEntered(const QString& name);
+    void nameEntered(const QString& name , const QString& proglan);
 private slots:
 
     void on_consolepythobutt_clicked();
@@ -30,6 +30,7 @@ private slots:
 private:
     Ui::startmenu *ui;
     QString name;
+    QString proglan;
 };
 
 #endif // STARTMENU_H

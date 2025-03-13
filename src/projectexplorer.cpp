@@ -3,8 +3,9 @@
 #include "dialogfilename.h"
 #include <QDebug>
 #include <QFile>
+#include <QFileDialog>
 
-ProjectExplorer::ProjectExplorer(QWidget *parent, QTabWidget *tab_widget , QString stringname)
+ProjectExplorer::ProjectExplorer(QWidget *parent, QTabWidget *tab_widget , QString stringname , QString lang)
     : QWidget(parent)
 {
     QPushButton * plusFile =  new QPushButton("+Файл",this);
@@ -20,6 +21,21 @@ ProjectExplorer::ProjectExplorer(QWidget *parent, QTabWidget *tab_widget , QStri
         treeView->setRootIndex(model->index("/home/deck/Documents/" + stringname));
     }else{
         QDir().mkdir("/home/deck/Documents/" + stringname);
+        QDir().mkdir("/home/deck/Documents/" + stringname +"/.q_conf");
+
+        QString filePath ="/home/deck/Documents/" + stringname +"/.q_conf/conf.gson";
+
+        QFile file(filePath);
+        QTextStream out(&file);
+        out << "program_lang = " + lang;
+        file.close();
+
+
+        if (!file.open(QFile::WriteOnly | QFile::Text)) {
+            qDebug() << "Не удалось открыть файл для записи:" << file.errorString();
+            return;
+        }
+        file.close();
         treeView->setRootIndex(model->index("/home/deck/Documents/" + stringname));
     }
 
@@ -47,7 +63,17 @@ ProjectExplorer::ProjectExplorer(QWidget *parent, QTabWidget *tab_widget , QStri
             name = enteredName;
         });
         dil->exec();
-        pl_tab(tab_widget , &name);
+
+
+        QString filePath = "/home/deck/Documents/" + stringname + '/' + name;
+        QFile file(filePath);
+
+
+        if (!file.open(QFile::WriteOnly | QFile::Text)) {
+            qDebug() << "Не удалось открыть файл для записи:" << file.errorString();
+            return;
+        }
+        file.close();
     });
 
 
@@ -68,8 +94,6 @@ void ProjectExplorer::file_open(QTabWidget *tab_widget, QString file_name )
     QWidget *newTab = new QWidget();
     QVBoxLayout *layout = new QVBoxLayout(newTab);
 
-
-
     QFile file(file_name);
     if (!file.open(QFile::ReadOnly | QFile::Text)) {
         qDebug() << "Не удалось открыть файл:";
@@ -81,8 +105,11 @@ void ProjectExplorer::file_open(QTabWidget *tab_widget, QString file_name )
 
     CodeTextEdit *lineEdit = new CodeTextEdit();
     lineEdit->setStyleSheet("QPlainTextEdit { color: black; background-color: #f5f5f5; }");
+
     lineEdit->setPlainText(file_content);
+
     layout->addWidget(lineEdit);
+
     new PythonHighlighter(lineEdit->document());
 
     newTab->setProperty("fileName", file_name);
@@ -99,8 +126,11 @@ void ProjectExplorer::pl_tab(QTabWidget *qtab , QString  *name) {
     lineEdit->setStyleSheet("QPlainTextEdit { color: black41; background-color: #f5f5f5; }");
 
     layout->addWidget(lineEdit);
-    qtab->addTab(newTab, *name);// Добавляем виджет в QTabWidget
+    qtab->addTab(newTab, *name);
 
     new PythonHighlighter(lineEdit->document());
 
 }
+
+
+
