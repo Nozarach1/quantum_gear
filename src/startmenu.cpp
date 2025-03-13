@@ -69,7 +69,7 @@ void startmenu::on_CPPConsolebutton_clicked()
 void startmenu::on_pushButton_clicked()
 {
 
-    QString dir = QFileDialog::getExistingDirectory(this, tr("Open Project"), "/home/deck/Documents/", QFileDialog::ShowDirsOnly);
+    QString dir = QFileDialog::getExistingDirectory(this, tr("Open Project"), QStandardPaths::writableLocation(QStandardPaths::DocumentsLocation) , QFileDialog::ShowDirsOnly);
     QDir selectedDir(dir);
 
     name = selectedDir.dirName();

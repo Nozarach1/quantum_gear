@@ -18,12 +18,12 @@ ProjectExplorer::ProjectExplorer(QWidget *parent, QTabWidget *tab_widget , QStri
     QTreeView *treeView = new QTreeView(this);
     treeView->setModel(model);
     if(QDir(stringname).exists()){
-        treeView->setRootIndex(model->index("/home/deck/Documents/" + stringname));
+        treeView->setRootIndex(model->index(QStandardPaths::writableLocation(QStandardPaths::DocumentsLocation) + stringname));
     }else{
-        QDir().mkdir("/home/deck/Documents/" + stringname);
-        QDir().mkdir("/home/deck/Documents/" + stringname +"/.q_conf");
+        QDir().mkdir(QStandardPaths::writableLocation(QStandardPaths::DocumentsLocation) +"/"+ stringname);
+        QDir().mkdir(QStandardPaths::writableLocation(QStandardPaths::DocumentsLocation) +"/"+ stringname +"/.q_conf");
 
-        QString filePath ="/home/deck/Documents/" + stringname +"/.q_conf/conf.gson";
+        QString filePath =QStandardPaths::writableLocation(QStandardPaths::DocumentsLocation) +"/" + stringname +"/.q_conf/conf.gson";
 
         QFile file(filePath);
         QTextStream out(&file);
@@ -36,7 +36,7 @@ ProjectExplorer::ProjectExplorer(QWidget *parent, QTabWidget *tab_widget , QStri
             return;
         }
         file.close();
-        treeView->setRootIndex(model->index("/home/deck/Documents/" + stringname));
+        treeView->setRootIndex(model->index(QStandardPaths::writableLocation(QStandardPaths::DocumentsLocation) +"/" + stringname));
     }
 
     for (int i = 1; i < model->columnCount(); ++i) {
@@ -65,7 +65,7 @@ ProjectExplorer::ProjectExplorer(QWidget *parent, QTabWidget *tab_widget , QStri
         dil->exec();
 
 
-        QString filePath = "/home/deck/Documents/" + stringname + '/' + name;
+        QString filePath = QStandardPaths::writableLocation(QStandardPaths::DocumentsLocation) +"/"+ stringname + '/' + name;
         QFile file(filePath);
 
 

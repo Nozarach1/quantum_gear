@@ -3,6 +3,7 @@
 
 #include <QDialog>
 #include <QLineEdit>
+#include <QStandardPaths>
 
 namespace Ui {
 class startmenu;

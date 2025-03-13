@@ -10,7 +10,7 @@
 #include <QTabWidget>
 #include <QPlainTextEdit>
 #include <QPushButton>
-
+#include <QStandardPaths>
 class ProjectExplorer : public QWidget
 {
     Q_OBJECT
