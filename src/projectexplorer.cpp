@@ -48,7 +48,6 @@ ProjectExplorer::ProjectExplorer(QWidget *parent, QTabWidget *tab_widget , QStri
         treeView->hideColumn(i);
     }
 
-    // Настраиваем соединение
     QObject::connect(treeView, &QTreeView::clicked, this, [this, model, tab_widget](const QModelIndex &index) {
         QString filePath = model->filePath(index);
         file_open(tab_widget, filePath);

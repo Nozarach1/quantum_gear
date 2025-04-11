@@ -20,6 +20,7 @@ public:
 
 signals:
     void nameEntered(const QString& name , const QString& proglan);
+
 private slots:
 
     void on_consolepythobutt_clicked();
