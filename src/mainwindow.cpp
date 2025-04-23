@@ -150,7 +150,7 @@ MainWindow::MainWindow(QWidget *parent , QString nameprogect , QString program_l
 
     QSpacerItem * spase = new QSpacerItem(0, 0, QSizePolicy::Expanding);
 
-    Console *console = new Console;
+    Console *console = new Console( nullptr , nameprogect);
     open_console(console);
 
     layouth -> addWidget(run);

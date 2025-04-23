@@ -17,8 +17,8 @@ ProjectExplorer::ProjectExplorer(QWidget *parent, QTabWidget *tab_widget , QStri
 
     QTreeView *treeView = new QTreeView(this);
     treeView->setModel(model);
-    if(QDir(stringname).exists()){
-        treeView->setRootIndex(model->index(QStandardPaths::writableLocation(QStandardPaths::DocumentsLocation) + stringname));
+    if(QDir(QStandardPaths::writableLocation(QStandardPaths::DocumentsLocation)+"/"+ stringname).exists()){
+        treeView->setRootIndex(model->index(QStandardPaths::writableLocation(QStandardPaths::DocumentsLocation) + "/" + stringname));
     }else{
         QDir().mkdir(QStandardPaths::writableLocation(QStandardPaths::DocumentsLocation) +"/"+ stringname);
         QDir().mkdir(QStandardPaths::writableLocation(QStandardPaths::DocumentsLocation) +"/"+ stringname +"/.q_conf");

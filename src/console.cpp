@@ -1,6 +1,7 @@
 #include "console.h"
 
-Console::Console(QWidget *parent) : QWidget(parent) {
+
+Console::Console(QWidget * parent , QString  name) : QWidget(parent) {
     output = new QPlainTextEdit(this);
     input = new QLineEdit(this);
     output->setReadOnly(true);
@@ -23,8 +24,18 @@ Console::Console(QWidget *parent) : QWidget(parent) {
     setLayout(layout);
 
     // Start the shell
-    process->start("/bin/bash"); // Или другой shell
+    process->start("/bin/bash");
+
+    process->write(("cd " + QStandardPaths::writableLocation(QStandardPaths::DocumentsLocation) + "/" +  name + "\n").toUtf8());
+
+    QString filePath =QStandardPaths::writableLocation(QStandardPaths::DocumentsLocation) +"/" + name +"/.q_conf/conf.gson";
+
+    QFile file(filePath);
+    QTextStream out(&file);
+    out << "program_lang = " + lang;
+    file.close();
 }
+
 
 
     void Console::keyPressEvent(QKeyEvent *event){
@@ -77,7 +88,7 @@ Console::Console(QWidget *parent) : QWidget(parent) {
             delete process;
         }
     }
+    void Console::Run() {
 
 
-
-//#include "main.moc" // Include the moc file
+    }

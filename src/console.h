@@ -9,13 +9,16 @@
 #include <QWidget>
 #include <QKeyEvent>
 #include <QDebug>
+#include <QStandardPaths>
+#include <QFile>
 
 class Console : public QWidget {
     Q_OBJECT
 
 public:
-    Console(QWidget *parent = nullptr);
+    Console(QWidget *parent = nullptr , QString  name = nullptr);
     ~Console();
+    void Run();
 
 protected:
     void keyPressEvent(QKeyEvent *event) override;
