@@ -27,7 +27,7 @@ ProjectExplorer::ProjectExplorer(QWidget *parent, QTabWidget *tab_widget , QStri
 
         QFile file(filePath);
         QTextStream out(&file);
-        out << "program_lang = " + lang;
+        out << "program_lang = " + lang + ';';
         file.close();
 
 

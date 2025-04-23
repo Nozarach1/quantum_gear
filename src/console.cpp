@@ -31,8 +31,12 @@ Console::Console(QWidget * parent , QString  name) : QWidget(parent) {
     QString filePath =QStandardPaths::writableLocation(QStandardPaths::DocumentsLocation) +"/" + name +"/.q_conf/conf.gson";
 
     QFile file(filePath);
-    QTextStream out(&file);
-    out << "program_lang = " + lang;
+
+    QString proglang;
+    QTextStream  in(&file);
+
+    in >>proglang;
+
     file.close();
 }
 
