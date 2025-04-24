@@ -23,6 +23,7 @@ ProjectExplorer::ProjectExplorer(QWidget *parent, QTabWidget *tab_widget , QStri
         QDir().mkdir(QStandardPaths::writableLocation(QStandardPaths::DocumentsLocation) +"/"+ stringname);
         QDir().mkdir(QStandardPaths::writableLocation(QStandardPaths::DocumentsLocation) +"/"+ stringname +"/.q_conf");
 
+
         QString filePath =QStandardPaths::writableLocation(QStandardPaths::DocumentsLocation) +"/" + stringname +"/.q_conf/conf.gson";
 
         QFile file(filePath);
@@ -38,6 +39,7 @@ ProjectExplorer::ProjectExplorer(QWidget *parent, QTabWidget *tab_widget , QStri
         file.close();
         treeView->setRootIndex(model->index(QStandardPaths::writableLocation(QStandardPaths::DocumentsLocation) +"/" + stringname));
     }
+
 
     for (int i = 1; i < model->columnCount(); ++i) {
         treeView->hideColumn(i);
@@ -69,7 +71,7 @@ ProjectExplorer::ProjectExplorer(QWidget *parent, QTabWidget *tab_widget , QStri
 
 
         if (!file.open(QFile::WriteOnly | QFile::Text)) {
-            qDebug() << "Не удалось открыть файл для записи:" << file.errorString();
+            qDebug() << "Не удалось создать файл для записи:" << file.errorString();
             return;
         }
         file.close();

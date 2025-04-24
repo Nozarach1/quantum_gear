@@ -28,30 +28,49 @@ Console::Console(QWidget * parent , QString  name) : QWidget(parent) {
 
     process->write(("cd " + QStandardPaths::writableLocation(QStandardPaths::DocumentsLocation) + "/" +  name + "\n").toUtf8());
 
-    QString filePath =QStandardPaths::writableLocation(QStandardPaths::DocumentsLocation) +"/" + name +"/.q_conf/conf.gson";
 
-    QFile file(filePath);
+    QFile file(QStandardPaths::writableLocation(QStandardPaths::DocumentsLocation) + "/" + name + "/.q_conf/conf.gson");
 
-    QString proglang;
-    QTextStream  in(&file);
 
-    in >>proglang;
 
-    file.close();
+    if (file.open(QIODevice::ReadOnly | QIODevice::Text))
+    {
+        const size_t linenum = 1;
+
+        for (size_t i = 0; i < linenum - 1; i++)
+            file.readLine();
+        QByteArray rawline = file.readLine();
+        file.close();
+        proglang = QString::fromUtf8(rawline);
+    }
+
+    if (!QFile(QStandardPaths::writableLocation(QStandardPaths::DocumentsLocation) + "/" + name + "/" + "main.py").exists() ||
+        !QFile(QStandardPaths::writableLocation(QStandardPaths::DocumentsLocation) + "/" + name + "/" + "main.cpp").exists()) {
+        if(proglang == "program_lang = PYTHON;"){
+
+            QString filePath = QStandardPaths::writableLocation(QStandardPaths::DocumentsLocation) +"/"+ name + '/' + "main.py";
+            QFile mainfile(filePath);
+
+        }else if (proglang == "program_lang = CPP;") {
+
+            QString filePath = QStandardPaths::writableLocation(QStandardPaths::DocumentsLocation) +"/"+ name + '/' + "main.cpp";
+            QFile mainfile(filePath);
+
+        }else{
+
+        }
+    }
 }
 
 
 
     void Console::keyPressEvent(QKeyEvent *event){
         if (event->key() == Qt::Key_Backspace) {
-            // TODO: Обработка Backspace
-            //  input->backspace(); //Просто удаляет символ из line edit. Не из эмулируемого терминала
+
         } else if (event->key() == Qt::Key_Up) {
-            // TODO: История команд
+
         } else {
-            // qDebug() << "Key pressed: " << event->text(); // Проверка что клавиша нажимается.
-            // отправляем команду в процесс.  Нужно решить отправлять сразу или накапливать
-            // в lineedit и потом по enter отправлять.
+
         }
     }
 
@@ -93,6 +112,8 @@ Console::Console(QWidget * parent , QString  name) : QWidget(parent) {
         }
     }
     void Console::Run() {
+        if(proglang == "program_lang = PYTHON;"){
 
+        }
 
     }

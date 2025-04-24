@@ -16,6 +16,8 @@ class Console : public QWidget {
     Q_OBJECT
 
 public:
+    QString proglang;
+    QString type;
     Console(QWidget *parent = nullptr , QString  name = nullptr);
     ~Console();
     void Run();
