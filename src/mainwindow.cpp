@@ -1,8 +1,5 @@
 #include "mainwindow.h"
 
-
-
-
 QString  text = ("def hello_world():\n"
                               "    # Это комментарий\n"
                               "    print(\"Hello, world!\")\n"
@@ -43,7 +40,7 @@ void MainWindow::file_open(QTabWidget *qtab, const QString &file_name) {
     layout->addWidget(lineEdit);
     new PythonHighlighter(lineEdit->document());
 
-    // Храним имя файла в свойстве нового таба
+
     newTab->setProperty("fileName", file_name);
 
     qtab->addTab(newTab, QFileInfo(file_name).fileName());
@@ -52,20 +49,20 @@ void MainWindow::file_open(QTabWidget *qtab, const QString &file_name) {
 }
 
 void MainWindow::pl_tab(QTabWidget *qtab) {
-    QWidget *newTab = new QWidget(); // Создаем новый виджет для вкладки
-    QVBoxLayout *layout = new QVBoxLayout(newTab); // Добавляем layout для нового виджета
+    QWidget *newTab = new QWidget();
+    QVBoxLayout *layout = new QVBoxLayout(newTab);
     CodeTextEdit  *lineEdit = new CodeTextEdit ();
     lineEdit->setStyleSheet("QPlainTextEdit { color: black41; background-color: #f5f5f5; }");
 
     layout->addWidget(lineEdit);
-    qtab->addTab(newTab, "Новая вкладка");// Добавляем виджет в QTabWidget
+    qtab->addTab(newTab, "Новая вкладка");
 
     new PythonHighlighter(lineEdit->document());
 }
 
 void MainWindow::save_file (CodeTextEdit *textEdit, const QString &file_name){
     QFile file(file_name);
-    // Открываем файл в режиме записи (WriteOnly)
+
     if (!file.open(QFile::WriteOnly | QFile::Text)) {
         qDebug() << "Не удалось открыть файл для записи:" << file.errorString();
         return;
@@ -74,34 +71,33 @@ void MainWindow::save_file (CodeTextEdit *textEdit, const QString &file_name){
     QTextStream out(&file);
     out << textEdit->toPlainText();
 
-    // Закрываем файл после записи
+
     file.close();
 }
 
 void MainWindow::save_global(QTabWidget * tab_widget , QWidget *centralWidget){
     int currentIndex = tab_widget->currentIndex();
 
-    // Получаем текущий виджет (таб)
     QWidget *currentTab = tab_widget->widget(currentIndex);
 
     if (currentTab) {
-        // Извлекаем имя файла из свойства
+
         QString file_name = currentTab->property("fileName").toString();
 
         CodeTextEdit *textEdit = currentTab->findChild<CodeTextEdit*>();
 
         if (textEdit) {
             if (file_name.isEmpty()) {
-                // Если имя файла пустое, то предложить сохранить как
+
                 QString selectedFileName = QFileDialog::getSaveFileName(centralWidget, "Сохранить файл", "", "Все файлы (*.*);;Текстовые файлы (*.txt);;Изображения (*.png;*.jpg;*.bmp)");
 
                 if (!selectedFileName.isEmpty()) {
-                    // Сохраним файл с новым именем.
+
                     save_file(textEdit, selectedFileName);
                     currentTab->setProperty("fileName", selectedFileName); // Обновляем имя файла в свойстве.
                 }
             } else {
-                // Если у нас уже есть имя файла, просто сохраняем.
+
                 save_file(textEdit, file_name);
             }
         } else {
@@ -132,7 +128,7 @@ void MainWindow::open_console(Console * console){
 
 void handleCommand(const QString& command) {
     qDebug() << "Command entered: " << command;
-    //Do something with command.
+
 }
 
 
@@ -221,10 +217,10 @@ MainWindow::MainWindow(QWidget *parent , QString nameprogect , QString program_l
     });
 
     QObject::connect(tab_widget, &QTabWidget::tabCloseRequested, [tab_widget, centralWidget, this](int index) {
-        // Получите текущий виджет (таб)
+
         QWidget *currentTab = tab_widget->widget(index);
         if (currentTab) {
-            // Извлекаем имя файла из свойства
+
             QString file_name = currentTab->property("fileName").toString();
             CodeTextEdit *textEdit = currentTab->findChild<CodeTextEdit*>();
 
@@ -232,15 +228,18 @@ MainWindow::MainWindow(QWidget *parent , QString nameprogect , QString program_l
                 save_global(tab_widget, centralWidget);
             }
         }
-        tab_widget->removeTab(index); // Удаляем вкладку после обработки
+        tab_widget->removeTab(index);
     });
 
 
     QObject::connect(open_project_explorer, &QAction::triggered, [projectexplorer,nameprogect, this]() {
         open_project_exp(projectexplorer, nameprogect);
-
     });
 
+
+    QObject::connect(run, &QPushButton::clicked, [console, this]() {
+            console->Run();
+    });
 
 
 

@@ -78,7 +78,7 @@ Console::Console(QWidget * parent , QString  name) : QWidget(parent) {
     void Console::readOutput() {
         QByteArray data = process->readAllStandardOutput();
         output->appendPlainText(data);
-        // TODO: Парсинг ANSI escape sequences
+
     }
 
     void Console::readError() {
@@ -112,8 +112,12 @@ Console::Console(QWidget * parent , QString  name) : QWidget(parent) {
         }
     }
     void Console::Run() {
-        if(proglang == "program_lang = PYTHON;"){
-
+        if(proglang.contains("PYTHON")){
+            process->write(("python3 main.py\n"));
+        }
+        else if (proglang == "CPP") {
+            process->write("g++ main.cpp\n");
+            process->write("./a.out");
         }
 
     }
