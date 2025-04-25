@@ -38,6 +38,21 @@ ProjectExplorer::ProjectExplorer(QWidget *parent, QTabWidget *tab_widget , QStri
         }
         file.close();
         treeView->setRootIndex(model->index(QStandardPaths::writableLocation(QStandardPaths::DocumentsLocation) +"/" + stringname));
+
+        if(lang == "PYTHON"){
+
+            QString filePath = QStandardPaths::writableLocation(QStandardPaths::DocumentsLocation) +"/"+ stringname + '/' + "main.py";
+            QFile mainfile(filePath);
+            mainfile.open(QIODevice::WriteOnly);
+            mainfile.close();
+
+        }else if (lang == "CPP"){
+            QString filePath = QStandardPaths::writableLocation(QStandardPaths::DocumentsLocation) +"/"+ stringname + '/' + "main.cpp";
+            QFile mainfile(filePath);
+            mainfile.open(QIODevice::WriteOnly);
+            mainfile.close();
+
+        }
     }
 
 

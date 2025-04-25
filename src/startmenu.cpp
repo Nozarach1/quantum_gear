@@ -10,6 +10,7 @@ startmenu::startmenu(QWidget *parent)
     , ui(new Ui::startmenu)
 {
     ui->setupUi(this);
+
 }
 
 startmenu::~startmenu()

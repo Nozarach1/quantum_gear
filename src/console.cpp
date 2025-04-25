@@ -7,6 +7,8 @@ Console::Console(QWidget * parent , QString  name) : QWidget(parent) {
     output->setReadOnly(true);
     output->setFont(QFont("Monospace", 10));
 
+    progname = name;
+
     process = new QProcess(this);
 
     // Connect signals
@@ -29,7 +31,7 @@ Console::Console(QWidget * parent , QString  name) : QWidget(parent) {
     process->write(("cd " + QStandardPaths::writableLocation(QStandardPaths::DocumentsLocation) + "/" +  name + "\n").toUtf8());
 
 
-    QFile file(QStandardPaths::writableLocation(QStandardPaths::DocumentsLocation) + "/" + name + "/.q_conf/conf.gson");
+    QFile file(QStandardPaths::writableLocation(QStandardPaths::DocumentsLocation) + "/" +  name + "/.q_conf/conf.gson");
 
 
 
@@ -44,22 +46,6 @@ Console::Console(QWidget * parent , QString  name) : QWidget(parent) {
         proglang = QString::fromUtf8(rawline);
     }
 
-    if (!QFile(QStandardPaths::writableLocation(QStandardPaths::DocumentsLocation) + "/" + name + "/" + "main.py").exists() ||
-        !QFile(QStandardPaths::writableLocation(QStandardPaths::DocumentsLocation) + "/" + name + "/" + "main.cpp").exists()) {
-        if(proglang == "program_lang = PYTHON;"){
-
-            QString filePath = QStandardPaths::writableLocation(QStandardPaths::DocumentsLocation) +"/"+ name + '/' + "main.py";
-            QFile mainfile(filePath);
-
-        }else if (proglang == "program_lang = CPP;") {
-
-            QString filePath = QStandardPaths::writableLocation(QStandardPaths::DocumentsLocation) +"/"+ name + '/' + "main.cpp";
-            QFile mainfile(filePath);
-
-        }else{
-
-        }
-    }
 }
 
 
@@ -112,6 +98,21 @@ Console::Console(QWidget * parent , QString  name) : QWidget(parent) {
         }
     }
     void Console::Run() {
+
+        QFile file(QStandardPaths::writableLocation(QStandardPaths::DocumentsLocation) + "/" +  progname + "/.q_conf/conf.gson");
+
+
+        if (file.open(QIODevice::ReadOnly | QIODevice::Text))
+        {
+            const size_t linenum = 1;
+
+            for (size_t i = 0; i < linenum - 1; i++)
+                file.readLine();
+            QByteArray rawline = file.readLine();
+            file.close();
+            proglang = QString::fromUtf8(rawline);
+        }
+
         if(proglang.contains("PYTHON")){
             process->write(("python3 main.py\n"));
         }
