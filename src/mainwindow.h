@@ -18,6 +18,9 @@
 #include <QDockWidget>
 #include <QPushButton>
 #include <QSpacerItem>
+
+#include <QShortcut>
+
 class MainWindow : public QMainWindow
 {
     Q_OBJECT

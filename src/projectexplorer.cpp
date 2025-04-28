@@ -92,6 +92,27 @@ ProjectExplorer::ProjectExplorer(QWidget *parent, QTabWidget *tab_widget , QStri
         file.close();
     });
 
+    QObject::connect(plusDir, &QPushButton::clicked, this, [this, stringname, tab_widget]() {
+
+        QString name = "";
+        dialogfilename * dil = new dialogfilename;
+        QObject::connect(dil, &dialogfilename::nameEntered,[&name](const QString& enteredName) {
+            name = enteredName;
+        });
+        dil->exec();
+
+
+
+        QString dirPath = QStandardPaths::writableLocation(QStandardPaths::DocumentsLocation) +"/"+ stringname + '/' + name;
+        QDir().mkdir(dirPath);
+
+
+        if (!QDir(dirPath).exists()) {
+            qDebug() << "Не удалось создать   каталог:" <<Qt::endl;
+            return;
+        }
+
+    });
 
 
     QVBoxLayout *layout = new QVBoxLayout(this);

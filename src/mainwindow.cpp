@@ -242,6 +242,20 @@ MainWindow::MainWindow(QWidget *parent , QString nameprogect , QString program_l
     });
 
 
+    QShortcut *shortcut = new QShortcut(QKeySequence(Qt::CTRL | Qt::Key_S), this);
+
+
+    QObject::connect(shortcut,    &QShortcut::activated, [tab_widget , centralWidget , this]{
+        int currentIndex = tab_widget->currentIndex();
+        QWidget *currentTab = tab_widget->widget(currentIndex);
+        QString file_name = currentTab->property("fileName").toString();
+        CodeTextEdit *textEdit = currentTab->findChild<CodeTextEdit*>();
+
+        save_file(textEdit, file_name);
+    });
+
+
+
 
 }
 
