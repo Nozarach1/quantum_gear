@@ -20,3 +20,18 @@ void dialogfilename::on_pushButton_clicked()
     this->close();
 }
 
+QString selectDir(QWidget *parent) {
+    QString fileName = QFileDialog::getExistingDirectory(parent,
+                                                    "Каталог",
+                                                    "");
+
+    return fileName;
+}
+
+void dialogfilename::on_dirButton_clicked()
+{
+
+    name.append(selectDir(this));
+    name.append("/");
+}
+

@@ -17,7 +17,7 @@
    <property name="geometry">
     <rect>
      <x>280</x>
-     <y>30</y>
+     <y>40</y>
      <width>91</width>
      <height>29</height>
     </rect>
@@ -30,10 +30,23 @@
    <property name="geometry">
     <rect>
      <x>20</x>
-     <y>30</y>
+     <y>40</y>
      <width>251</width>
      <height>28</height>
     </rect>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="dirButton">
+   <property name="geometry">
+    <rect>
+     <x>20</x>
+     <y>10</y>
+     <width>141</width>
+     <height>29</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Выбор каталога</string>
    </property>
   </widget>
  </widget>

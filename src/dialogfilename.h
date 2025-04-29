@@ -3,6 +3,7 @@
 
 #include <QDialog>
 #include <QString>
+#include <QFileDialog>
 
 namespace Ui {
 class dialogfilename;
@@ -21,6 +22,8 @@ signals:
 
 private slots:
     void on_pushButton_clicked();
+
+    void on_dirButton_clicked();
 
 private:
     Ui::dialogfilename *ui;

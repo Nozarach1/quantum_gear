@@ -133,6 +133,10 @@ void handleCommand(const QString& command) {
 
 
 MainWindow::MainWindow(QWidget *parent , QString nameprogect , QString program_lang) : QMainWindow(parent) {
+    if(nameprogect == ""){
+        QMetaObject::invokeMethod(this,"close",Qt::QueuedConnection);
+    }
+
     QPushButton *run = new QPushButton("&Run");
     QPushButton *run_debug = new QPushButton("&Run Debug");
 
