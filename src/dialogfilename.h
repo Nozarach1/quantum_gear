@@ -4,6 +4,7 @@
 #include <QDialog>
 #include <QString>
 #include <QFileDialog>
+#include <QStandardPaths>
 
 namespace Ui {
 class dialogfilename;
@@ -27,6 +28,7 @@ private slots:
 
 private:
     Ui::dialogfilename *ui;
+    QString addres;
     QString name;
 };
 
