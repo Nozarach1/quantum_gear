@@ -80,8 +80,13 @@ ProjectExplorer::ProjectExplorer(QWidget *parent, QTabWidget *tab_widget , QStri
         });
         dil->exec();
 
+        QString adres = QStandardPaths::writableLocation(QStandardPaths::DocumentsLocation) +"/"+ stringname + '/';
+        QString filePath = name;
 
-        QString filePath = QStandardPaths::writableLocation(QStandardPaths::DocumentsLocation) +"/"+ stringname + '/' + name;
+        if(!filePath.contains(adres)){
+            filePath.prepend(adres);
+        }
+
         QFile file(filePath);
 
 
@@ -102,10 +107,14 @@ ProjectExplorer::ProjectExplorer(QWidget *parent, QTabWidget *tab_widget , QStri
         dil->exec();
 
 
+        QString adres = QStandardPaths::writableLocation(QStandardPaths::DocumentsLocation) +"/"+ stringname + '/';
+        QString dirPath = name;
 
-        QString dirPath = QStandardPaths::writableLocation(QStandardPaths::DocumentsLocation) +"/"+ stringname + '/' + name;
+
+        if(!dirPath.contains(adres)){
+            dirPath.prepend(adres);
+        }
         QDir().mkdir(dirPath);
-
 
         if (!QDir(dirPath).exists()) {
             qDebug() << "Не удалось создать   каталог:" <<Qt::endl;
