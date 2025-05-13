@@ -31,7 +31,7 @@ int main(int argc, char *argv[])
 
             QElapsedTimer timer;
             timer.start();
-            while (timer.elapsed() < 3000) {
+            while (timer.elapsed() < 10000) {
                 a.processEvents();
             }
 
@@ -45,6 +45,7 @@ int main(int argc, char *argv[])
         name = enteredName;
         proglan = enteredProglan;
     });
+
     menu->exec();
 
     MainWindow w(nullptr , name, proglan);

@@ -7,7 +7,6 @@
         player->setSource(QUrl::fromLocalFile(":/sound/LOBOTOMY.wav"));
 
 
-        // Установка текста на начальном экране
         showMessage("Загрузка приложения...", Qt::AlignBottom | Qt::AlignHCenter, Qt::white);
         player->play();
     }

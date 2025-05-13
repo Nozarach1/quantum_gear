@@ -95,7 +95,3 @@ void CodeTextEdit::lineNumberAreaPaintEvent(QPaintEvent *event)
         ++blockNumber;
     }
 }
-
-
-
-

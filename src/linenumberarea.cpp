@@ -1,5 +1,5 @@
 #include "linenumberarea.h"
-#include "codetextedit.h" // Включаем заголовочный файл CodeEditor, а не просто forward declaration
+#include "codetextedit.h"
 #include <QPainter>
 
 LineNumberArea::LineNumberArea(CodeTextEdit *editor) : QWidget(editor), codeEditor(editor)

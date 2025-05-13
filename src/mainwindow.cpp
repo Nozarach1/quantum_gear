@@ -89,7 +89,9 @@ void MainWindow::save_global(QTabWidget * tab_widget , QWidget *centralWidget){
         if (textEdit) {
             if (file_name.isEmpty()) {
 
-                QString selectedFileName = QFileDialog::getSaveFileName(centralWidget, "Сохранить файл", "", "Все файлы (*.*);;Текстовые файлы (*.txt);;Изображения (*.png;*.jpg;*.bmp)");
+                QString selectedFileName = QFileDialog::getSaveFileName
+                    (centralWidget, "Сохранить файл",
+                        "", "Все файлы (*.*);;Текстовые файлы (*.txt);;Изображения (*.png;*.jpg;*.bmp)");
 
                 if (!selectedFileName.isEmpty()) {
 
