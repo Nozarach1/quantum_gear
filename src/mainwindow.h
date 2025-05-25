@@ -1,7 +1,7 @@
 #ifndef MAINWINDOW_H
 #define MAINWINDOW_H
 
-#include "pythonhighlighter.h"
+#include "codehighlighter.h"
 #include "projectexplorer.h"
 #include "codetextedit.h"
 #include "console.h"
@@ -30,9 +30,9 @@ public:
 
 
 
-    void file_open(QTabWidget *qtab, const QString &file_name);
+    void file_open(QTabWidget *qtab, const QString &file_name, QString program_lang);
 
-    void pl_tab(QTabWidget *qtab);
+    void pl_tab(QTabWidget *qtab, QString program_lang);
 
     void save_file (CodeTextEdit *textEdit, const QString &file_name);
 
@@ -46,7 +46,7 @@ public:
 
     //void setProjectName(const QString &name );
 private:
-    PythonHighlighter *highlighter;
+    CodeHighlighter *highlighter;
     //QString nameprogect;
 };
 #endif // MAINWINDOW_H

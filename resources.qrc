@@ -5,4 +5,7 @@
     <qresource prefix="/">
         <file>images/start_frame.png</file>
     </qresource>
+    <qresource prefix="/">
+        <file>src/style.qss</file>
+    </qresource>
 </RCC>

@@ -23,15 +23,19 @@ int main(int argc, char *argv[])
     introwindow splash(pixmap);
     splash.show();
 
+    QFile styleFile(":/src/style.qss");
+    styleFile.open(QFile::ReadOnly);
+    QString styleSheet = QLatin1String(styleFile.readAll());
+    a.setStyleSheet(styleSheet);
 
-    a.setStyleSheet("QMainWindow { background-color: #2E2E2E; }"
-                    "QPushButton { background-color: #4CAF50; color: white; }"
-                    "QLabel { color: white; }");
+   // a.setStyleSheet("QMainWindow { background-color: #2E2E2E; }"
+     //               "QPushButton { background-color: #4CAF50; color: white; }"
+      //              "QLabel { color: white; }");
 
 
             QElapsedTimer timer;
             timer.start();
-            while (timer.elapsed() < 10000) {
+            while (timer.elapsed() < 3000) {
                 a.processEvents();
             }
 
@@ -50,7 +54,7 @@ int main(int argc, char *argv[])
 
     MainWindow w(nullptr , name, proglan);
    // w.setProjectName(name);
-    w.setWindowTitle("Жесть какой текстовый редактор");
+    w.setWindowTitle("Qantum gear");
     w.setWindowState(Qt::WindowMaximized);
 
     w.show();

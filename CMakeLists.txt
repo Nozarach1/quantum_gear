@@ -23,7 +23,7 @@ if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
     qt_add_executable(text_editor
         MANUAL_FINALIZATION
         ${PROJECT_SOURCES}
-        src/pythonhighlighter.h src/pythonhighlighter.cpp
+        src/codehighlighter.h src/codehighlighter.cpp
         src/projectexplorer.h src/projectexplorer.cpp
         src/codetextedit.h src/codetextedit.cpp
         src/linenumberarea.cpp
@@ -34,6 +34,7 @@ if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
     resources.qrc
     src/startmenu.h src/startmenu.cpp src/startmenu.ui
     src/dialogfilename.h src/dialogfilename.cpp src/dialogfilename.ui
+    src/style.qss
 
 
 

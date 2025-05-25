@@ -1,11 +1,5 @@
 #include "mainwindow.h"
 
-QString  text = ("def hello_world():\n"
-                              "    # Это комментарий\n"
-                              "    print(\"Hello, world!\")\n"
-                              "    return 0\n"
-                          );
-
 
 QString selectFile(QWidget *parent) {
     QString fileName = QFileDialog::getOpenFileName(parent,
@@ -16,7 +10,7 @@ QString selectFile(QWidget *parent) {
     return fileName;
 }
 
-void MainWindow::file_open(QTabWidget *qtab, const QString &file_name) {
+void MainWindow::file_open(QTabWidget *qtab, const QString &file_name ,QString program_lang) {
 
     QWidget *newTab = new QWidget();
     QVBoxLayout *layout = new QVBoxLayout(newTab);
@@ -33,12 +27,14 @@ void MainWindow::file_open(QTabWidget *qtab, const QString &file_name) {
     QString file_content = in.readAll();
 
     CodeTextEdit  *lineEdit = new CodeTextEdit ();
-    lineEdit->setStyleSheet("QPlainTextEdit { color: black; background-color: #f5f5f5; }");
+    //lineEdit->setStyleSheet("QPlainTextEdit { color: black; background-color: #f5f5f5; }");
 
 
     lineEdit->setPlainText(file_content);
     layout->addWidget(lineEdit);
-    new PythonHighlighter(lineEdit->document());
+
+    CodeHighlighter * syntaxHighlighter = new CodeHighlighter (lineEdit->document());
+    syntaxHighlighter->setLanguage(program_lang);
 
 
     newTab->setProperty("fileName", file_name);
@@ -48,16 +44,17 @@ void MainWindow::file_open(QTabWidget *qtab, const QString &file_name) {
     file.close();
 }
 
-void MainWindow::pl_tab(QTabWidget *qtab) {
+void MainWindow::pl_tab(QTabWidget *qtab, QString program_lang) {
     QWidget *newTab = new QWidget();
     QVBoxLayout *layout = new QVBoxLayout(newTab);
     CodeTextEdit  *lineEdit = new CodeTextEdit ();
-    lineEdit->setStyleSheet("QPlainTextEdit { color: black41; background-color: #f5f5f5; }");
+    //lineEdit->setStyleSheet("QPlainTextEdit { color: black41; background-color: #f5f5f5; }");
 
     layout->addWidget(lineEdit);
     qtab->addTab(newTab, "Новая вкладка");
 
-    new PythonHighlighter(lineEdit->document());
+    CodeHighlighter * syntaxHighlighter = new CodeHighlighter (lineEdit->document());
+    syntaxHighlighter->setLanguage(program_lang);
 }
 
 void MainWindow::save_file (CodeTextEdit *textEdit, const QString &file_name){
@@ -139,8 +136,8 @@ MainWindow::MainWindow(QWidget *parent , QString nameprogect , QString program_l
         QMetaObject::invokeMethod(this,"close",Qt::QueuedConnection);
     }
 
-    QPushButton *run = new QPushButton("&Run");
-    QPushButton *run_debug = new QPushButton("&Run Debug");
+    QPushButton *run = new QPushButton("&Пуск");
+    // QPushButton *run_debug = new QPushButton("&Run Debug");
 
     QWidget *centralWidget = new QWidget(this);
     QVBoxLayout *layout = new QVBoxLayout(centralWidget);
@@ -156,7 +153,7 @@ MainWindow::MainWindow(QWidget *parent , QString nameprogect , QString program_l
     open_console(console);
 
     layouth -> addWidget(run);
-    layouth -> addWidget(run_debug);
+    // layouth -> addWidget(run_debug);
     layouth ->addSpacerItem(spase);
 
 
@@ -198,17 +195,17 @@ MainWindow::MainWindow(QWidget *parent , QString nameprogect , QString program_l
 
     open_project_exp(projectexplorer , nameprogect);
 //?
-    QObject::connect(create_action, &QAction::triggered, [tab_widget, this]() {
-        pl_tab(tab_widget);
+    QObject::connect(create_action, &QAction::triggered, [tab_widget, this, program_lang]() {
+        pl_tab(tab_widget, program_lang);
 
     });
 
-    QObject::connect(open_action, &QAction::triggered, [centralWidget, tab_widget, this](){
+    QObject::connect(open_action, &QAction::triggered, [centralWidget, tab_widget, this, program_lang](){
         QString filePath = selectFile(centralWidget);
 
         if (!filePath.isEmpty()) {
             qDebug() << "Выбранный файл:" << filePath;
-            file_open(tab_widget , filePath);
+            file_open(tab_widget , filePath, program_lang);
 
         } else {
             qDebug() << "Файл не выбран.";

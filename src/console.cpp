@@ -116,9 +116,19 @@ Console::Console(QWidget * parent , QString  name) : QWidget(parent) {
         if(proglang.contains("PYTHON")){
             process->write(("python3 main.py\n"));
         }
-        else if (proglang == "CPP") {
-            process->write("g++ main.cpp\n");
-            process->write("./a.out");
+        else if (proglang.contains("CPP")) {
+
+            if(!QDir("build").exists()){
+                process->write("mkdir build\n");
+                process->write("cd build\n");
+            }else{
+                process->write("cd build\n");
+            }
+            process->write("cmake ..\n");
+            process->write("make\n");
+            process->write(("./" + progname +"\n").toUtf8());
+            process->write("cd ..\n");
+            //process->write( ("./" + QStandardPaths::writableLocation(QStandardPaths::DocumentsLocation) + "/" +  progname + "/build/MyAppp").toUtf8());
         }
 
     }

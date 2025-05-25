@@ -1,0 +1,78 @@
+/* Основное окно */
+QMainWindow {
+    background: qlineargradient(x1:0, y1:0, x2:1, y2:1, stop:0 #80FFD2, stop:1 #B36FE2);
+}
+
+* {
+    font-family: "Segoe UI";
+    font-size: 11pt;
+}
+
+/* Кнопки */
+QPushButton {
+    background-color: #42A5F5;  /* Голубой цвет */
+    color: white;
+    border: none;
+    padding: 8px 16px;
+    border-radius: 4px;
+    font-weight: bold;
+}
+
+QPushButton:hover {
+    background-color: #1E88E5;  /* Темнее при наведении */
+}
+
+QPushButton:pressed {
+    background-color: #1565C0;  /* Еще темнее при нажатии */
+}
+
+/* Текстовые метки */
+QLabel {
+    color: #006064;  /* Темно-бирюзовый текст для контраста */
+}
+
+/* Поля ввода */
+QLineEdit {
+    background-color: white;
+    border: 2px solid #B2EBF2;
+    border-radius: 4px;
+    padding: 5px;
+    color: #006064;
+}
+
+QLineEdit:focus {
+    border: 2px solid #00ACC1;
+}
+
+/* Выпадающие списки */
+QComboBox {
+    background-color: white;
+    border: 1px solid #B2EBF2;
+    border-radius: 3px;
+    padding: 5px;
+    min-width: 6em;
+    color: #006064;
+}
+
+QComboBox::drop-down {
+    subcontrol-origin: padding;
+    subcontrol-position: top right;
+    width: 15px;
+    border-left-width: 1px;
+    border-left-color: #B2EBF2;
+    border-left-style: solid;
+    border-top-right-radius: 3px;
+    border-bottom-right-radius: 3px;
+}
+
+QComboBox QAbstractItemView {
+    background-color: white;
+    color: #006064;
+    selection-background-color: #B2EBF2;
+}
+
+QPlainTextEdit {
+    font-size: 14pt;
+    background-color: white;
+
+}

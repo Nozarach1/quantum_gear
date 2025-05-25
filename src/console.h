@@ -11,7 +11,7 @@
 #include <QDebug>
 #include <QStandardPaths>
 #include <QFile>
-
+#include <QDir>
 class Console : public QWidget {
     Q_OBJECT
 
